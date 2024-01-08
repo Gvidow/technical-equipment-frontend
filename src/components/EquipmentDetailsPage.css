@@ -1,0 +1,66 @@
+.model-card-image {
+    max-width: 60%;
+    max-height: 60%;
+}
+
+.model-card-image img {
+width: 100%;
+height: 100%;
+}
+
+.model-card-description {
+    max-width: 600px;
+    margin: 0 auto;
+    flex: 2;
+    padding: 20px;
+}
+
+.model-card {
+    display: flex;
+
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    padding: 2% 12%;
+}
+
+.model-card-description p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+.model-detail-card {
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.7);
+}
+
+
+
+
+.model-card-description h2 {
+    font-size: 32px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+
+
+.model-card-description a {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.btn-back-to-models {
+    background-color: #1571d3;
+    color: #ffffff;
+    padding: 5px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.btn-back-to-models:hover {
+    background-color:#9cc3ed;
+    color: #1571d3;
+}

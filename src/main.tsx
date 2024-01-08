@@ -1,59 +1,65 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import App from './App.tsx'
-import StartPage from './StartPage.tsx'
-import ITunesPage from './ITunesPage.tsx'
-
+import EquipmentsPage from './components/EquipmentsPage'
+import EquipmentDetailPage from './components/EquipmentDetailPage'
 import { createBrowserRouter, RouterProvider  } from 'react-router-dom'
 
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import { useNavigate } from 'react-router-dom';
+import Calendar from './components/Calendar'
+// import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+
+// const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+const base_path = '/*';
+
+
+function RedirectComponent() {
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    navigate('/equipment/feed');
+  }, [navigate]);
+  return null;
+}
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <h1>Это наша стартовая страница</h1>
+    path: base_path,
+    element: <RedirectComponent />
   },
   {
-    path: '/new',
-    element: <h1>Это наша страница с чем-то новеньким</h1>
+    path: '/equipment/feed',
+    element: <EquipmentsPage />
   },
   {
-    path: '/vite',
-    element: <App />
-  },
+    path: '/equipment/get/:id',
+    element: <EquipmentDetailPage />
+  }, 
   {
-    path: '/practice',
-    element: <StartPage />
-  },
-  {
-    path: '/page',
-    element: <ITunesPage />
+    path: 'c',
+    element: <Calendar />
   }
 ])
 
+
+// const RouterComponent = isLocal ? BrowserRouter : HashRouter;
+
+// ReactDOM.render(
+//   <RouterComponent>
+//     <Routes>
+//       <Route path={base_path} element={<RedirectComponent />}/>
+//       <Route path="/equipment/feed" element={<App />}/>
+//       <Route path="/equipment/get/:id" element={<EquipmentDetailPage />} />
+//     </Routes>
+//   </RouterComponent>,
+//   document.getElementById('root')
+// );
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ul>
-      <li>
-        <a href="/">Старт</a>
-      </li>
-      <li>
-        <a href="/new">Хочу на страницу с чем-то новеньким</a>
-      </li>
-      <li>
-        <a href="/vite">Example</a>
-      </li>
-      <li>
-        <a href="/practice">Practice</a>
-      </li>
-      <li>
-        <a href="/page">ITunesPage</a>
-      </li>
-    </ul>
-    <hr />
     <RouterProvider router={router} />
   </React.StrictMode>,
 )

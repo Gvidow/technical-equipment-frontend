@@ -1,11 +1,21 @@
-.inputField {
-    display: flex;
-    padding: 12px 0;
+.custom-mb-3 {
+    width: 85% !important;
+    margin: 10px auto;
 }
-.inputField > input {
-    width: 200px;
-    margin-right: 12px;
-    border: 2px solid black;
-    border-radius: 4px;
-    outline: none;
+
+.custum-input {
+    border: 0.5px solid #0a5baf!important;
+}
+
+
+.my-custom-button {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    color: #0a5baf!important;
+    border: 0.5px solid #0a5baf!important;
+}
+
+.my-custom-button:hover {
+    background-color:#0a5baf!important;
+    color: #ffffff!important;
 }
