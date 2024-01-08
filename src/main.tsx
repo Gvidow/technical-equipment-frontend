@@ -2,9 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './App.tsx'
+import StartPage from './StartPage.tsx'
+import ITunesPage from './ITunesPage.tsx'
 
 import { createBrowserRouter, RouterProvider  } from 'react-router-dom'
+
 import './index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 const router = createBrowserRouter([
   {
@@ -18,6 +23,14 @@ const router = createBrowserRouter([
   {
     path: '/vite',
     element: <App />
+  },
+  {
+    path: '/practice',
+    element: <StartPage />
+  },
+  {
+    path: '/page',
+    element: <ITunesPage />
   }
 ])
 
@@ -29,6 +42,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </li>
       <li>
         <a href="/new">Хочу на страницу с чем-то новеньким</a>
+      </li>
+      <li>
+        <a href="/vite">Example</a>
+      </li>
+      <li>
+        <a href="/practice">Practice</a>
+      </li>
+      <li>
+        <a href="/page">ITunesPage</a>
       </li>
     </ul>
     <hr />
