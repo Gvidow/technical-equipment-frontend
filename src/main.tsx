@@ -9,7 +9,6 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { useNavigate } from 'react-router-dom';
-import Calendar from './components/Calendar'
 // import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 
 // const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -37,10 +36,6 @@ const router = createBrowserRouter([
   {
     path: '/equipment/get/:id',
     element: <EquipmentDetailPage />
-  }, 
-  {
-    path: 'c',
-    element: <Calendar />
   }
 ])
 
