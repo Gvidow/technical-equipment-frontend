@@ -33,9 +33,9 @@ export interface EquipmentImage {
     },
   ];
   
-  export const getEquipments = async (title = '', minPrice = 0, maxPrice = 99000): Promise<EquipmentImage[]> => {
+  export const getEquipments = async (title = '', dateAfter=''): Promise<EquipmentImage[]> => {
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/equipment/list?title=${title}`, {
+      const response = await fetch(`/api/v1/equipment/list?title=${title}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
         method: 'GET',
       });
   

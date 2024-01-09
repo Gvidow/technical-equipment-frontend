@@ -1,12 +1,10 @@
 import { FC, useState } from 'react';
-import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import './InputField.css';
-// import Calendar from './Calendar';
 import Calendar from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'date-fns';
@@ -20,13 +18,7 @@ interface SearchValue {
   placeholder?: string;
   buttonTitle?: string;
   setFilterAfterDate: (date: string) => void;
-  minPrice: number | number[];
-  maxPrice: number | number[];
-  setMinPrice: (value: number | number[]) => void;
-  setMaxPrice: (value: number | number[]) => void;
-  lowerTreshold: number;
-  upperTreshold: number;
-  step: number;
+  clearParams: () => void;
 }
 
 const InputField: FC<SearchValue> = ({
@@ -36,21 +28,16 @@ const InputField: FC<SearchValue> = ({
   placeholder,
   buttonTitle,
   setFilterAfterDate,
-  minPrice = 0,
-  maxPrice = 99000,
-  setMinPrice,
-  setMaxPrice,
-  lowerTreshold,
-  upperTreshold,
-  step,
+  clearParams,
 }) => {
   const [createdAfterDate, setCreatedAfterDate] = useState<Date | null>(null);
   const [showClearButton, setShowClearButton] = useState<boolean>(false);
 
-  const clearFilter = async function() {
-    setCreatedAfterDate(null);
+  const clearFilter = function() {
+    wrapSetCreatedAfterDate(null);
     setValue('');
     setShowClearButton(false);
+    clearParams();
     // await onSubmit();
   };
   

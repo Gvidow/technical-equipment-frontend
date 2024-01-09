@@ -12,36 +12,19 @@ const EquipmentsPage: FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchTitle = queryParams.get('title') || '';
-//   const priceParam = queryParams.get('price') || '';
+  const searchDate = queryParams.get('createdAfter') || '';
 
-  const [searchValue, setSearchValue] = useState(searchTitle);
+  const [searchValue, setSearchValue] = useState<string>(searchTitle);
+  const [searchAfterDate, setSearchAfterDate] = useState<string>(searchDate)
   const [equipments, setEquipments] = useState<EquipmentImage[]>([]);
   const [loading, setLoading] = useState(false);
-  const [minPrice, setMinPrice] = useState<number | number[]>(0);
-  const [maxPrice, setMaxPrice] = useState<number | number[]>(99000);
 
   const handleSearchSubmit = async () => {
     setLoading(true);
-    const currMinPrice = Array.isArray(minPrice) ? minPrice[0] : minPrice
-    const currMaxPrice = Array.isArray(maxPrice) ? maxPrice[0] : maxPrice
-    const data = await getEquipments(searchValue, currMinPrice, currMaxPrice);
+    const data = await getEquipments(searchValue, searchAfterDate);
     setEquipments(data);
     setLoading(false);
   }
-
-  const handleMinSliderChange = (value: number | number[]) => {
-    setMinPrice(value);
-    if (value > maxPrice) {
-      setMaxPrice(value);
-    }
-  };
-
-  const handleMaxSliderChange = (value: number | number[]) => {
-    setMaxPrice(value);
-    if (value < minPrice) {
-      setMinPrice(value);
-    }
-  };
 
   useEffect(() => {
     handleSearchSubmit();
@@ -52,19 +35,20 @@ const EquipmentsPage: FC = () => {
       <NavbarTechnicalEquipment />
           <InputField
             value={searchValue}
-            setValue={(value)=>{navigateTo(`?title=${value}`); setSearchValue(value)}}
+            setValue={(value)=>{
+                setSearchValue(value)
+                const queryParams = new URLSearchParams(location.search);
+                queryParams.set('title', value);
+                console.log(`${location.pathname}?${queryParams.toString()}`)
+                navigateTo(`${location.pathname}?${queryParams.toString()}`);
+            }}
+            clearParams={()=>{navigateTo('/equipment/feed')}}
             onSubmit={handleSearchSubmit}
             loading={loading}
             placeholder="Введите поисковый запрос"
             buttonTitle="Искать"
-            minPrice={minPrice}
-            maxPrice={maxPrice}
-            setMinPrice={handleMinSliderChange}
-            setMaxPrice={handleMaxSliderChange}
-            lowerTreshold={0}
-            upperTreshold={9900}
-            step={1000}
             setFilterAfterDate={(date: string) => {
+                setSearchAfterDate(date);
                 const queryParams = new URLSearchParams(location.search);
                 queryParams.set('createdAfter', date);
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);

@@ -9,6 +9,7 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { useNavigate } from 'react-router-dom';
+
 // import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 
 // const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';

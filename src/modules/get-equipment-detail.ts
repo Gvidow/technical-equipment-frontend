@@ -20,7 +20,7 @@ const mockEquipmentDetails: EquipmentDetailsImage = {
 
 export const getEquipmentDetail = async (id: number): Promise<EquipmentDetailsImage> => {
     try {
-        const response = await fetch(`http://localhost:8080/api/v1/equipment/get/${id}/`, {
+        const response = await fetch(`/api/v1/equipment/get/${id}/`, {
             method: 'GET',
         });
         if (!response.ok) {
