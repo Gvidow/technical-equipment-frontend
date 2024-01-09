@@ -5,6 +5,8 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  console.log(window.location.hostname)
+  console.log(window.location.pathname)
 
   return (
     <>

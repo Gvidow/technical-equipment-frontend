@@ -17,19 +17,19 @@ const mockEquipments: EquipmentImage[] = [
       equipment_id: 1,
       equipment_title: 'Принтер',
       equipment_description: 'для печати документов',
-      equipment_image: '/printer-icon.svg',
+      equipment_image: '/technical-equipment-frontend/printer-icon.svg',
   },
   {
       equipment_id: 2,
       equipment_title: 'Проектор',
       equipment_description: 'Показывает в высоком качестве',
-      equipment_image: '/printer-icon.svg',
+      equipment_image: '/technical-equipment-frontend/printer-icon.svg',
   },
   {
       equipment_id: 3,
       equipment_title: 'Ноутбук',
       equipment_description: 'если свой забыли',
-      equipment_image: '/printer-icon.svg',
+      equipment_image: '/technical-equipment-frontend/printer-icon.svg',
   },
 ];
 
@@ -77,7 +77,7 @@ export async function getImageForEquipment(equipmentUrl: string): Promise<string
       const base64String = arrayBufferToBase64(imageBuffer);
       return `data:${response.headers.get('Content-Type')};base64,${base64String}`;
     } else {
-      return '/printer-icon.svg';
+      return '/technical-equipment-frontend/printer-icon.svg';
     }
   } catch (error) {
     console.error(`Ошибка получения изображения для модели ${equipmentUrl}: ${error}`);

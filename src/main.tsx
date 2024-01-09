@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
+
 import EquipmentsPage from './components/EquipmentsPage'
 import EquipmentDetailPage from './components/EquipmentDetailPage'
 import { createBrowserRouter, RouterProvider  } from 'react-router-dom'
@@ -10,11 +11,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { useNavigate } from 'react-router-dom';
 
-// import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+// import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 
 // const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-const base_path = '/*';
+// const base_path = isLocal ? '/' : '/technical-equipment-frontend/';
 
 
 function RedirectComponent() {
@@ -27,18 +28,18 @@ function RedirectComponent() {
 
 const router = createBrowserRouter([
   {
-    path: base_path,
+    path: '/*',
     element: <RedirectComponent />
   },
   {
-    path: '/equipment/feed',
+    path: '/equipment/feed/',
     element: <EquipmentsPage />
   },
   {
-    path: '/equipment/get/:id',
+    path: 'equipment/get/:id/',
     element: <EquipmentDetailPage />
   }
-])
+], {basename: '/technical-equipment-frontend/'})
 
 
 // const RouterComponent = isLocal ? BrowserRouter : HashRouter;
@@ -46,9 +47,9 @@ const router = createBrowserRouter([
 // ReactDOM.render(
 //   <RouterComponent>
 //     <Routes>
-//       <Route path={base_path} element={<RedirectComponent />}/>
-//       <Route path="/equipment/feed" element={<App />}/>
-//       <Route path="/equipment/get/:id" element={<EquipmentDetailPage />} />
+//       <Route path={'/technical-equipment-frontend/g/'} element={<App />}/>
+//       <Route path='/equipment/feed' element={<EquipmentsPage />}/>
+//       <Route path={`equipment/get/:id/`} element={<EquipmentDetailPage />} />
 //     </Routes>
 //   </RouterComponent>,
 //   document.getElementById('root')

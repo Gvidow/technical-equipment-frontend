@@ -15,7 +15,7 @@ export interface EquipmentDetailsImage {
 const mockEquipmentDetails: EquipmentDetailsImage = {
     title: 'Оборудование',
     description: 'Подробное описание для данного оборудования',
-    equipment_image: '/printer-icon.svg',
+    equipment_image: '/technical-equipment-frontend/printer-icon.svg',
 };
 
 export const getEquipmentDetail = async (id: number): Promise<EquipmentDetailsImage> => {
