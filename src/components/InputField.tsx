@@ -10,38 +10,37 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'date-fns';
 import ru from 'date-fns/locale/ru';
 
-interface SearchValue {
-  value: string;
-  setValue: (value: string) => void;
+interface SearchEquipment{
+  equipmentTitle: string;
+  setEquipmentTitle: (equipment: string) => void;
   onSubmit: () => void;
   loading?: boolean;
   placeholder?: string;
   buttonTitle?: string;
   setFilterAfterDate: (date: string) => void;
   clearParams: () => void;
+  searchAfterDate: string;
+  reset: () => void;
 }
 
-const InputField: FC<SearchValue> = ({
-  value,
-  setValue,
+const InputField: FC<SearchEquipment> = ({
+  equipmentTitle,
+  reset,
+  setEquipmentTitle,
   onSubmit,
   placeholder,
   buttonTitle,
   setFilterAfterDate,
   clearParams,
+  searchAfterDate,
 }) => {
-  const [createdAfterDate, setCreatedAfterDate] = useState<Date | null>(null);
-  const [showClearButton, setShowClearButton] = useState<boolean>(false);
-
-  const clearFilter = function() {
-    wrapSetCreatedAfterDate(null);
-    setValue('');
-    setShowClearButton(false);
-    clearParams();
-    // await onSubmit();
-  };
+  const [showClearButton, setShowClearButton] = useState<boolean>(equipmentTitle === '' && searchAfterDate === '' ? false : true);
+  const [createdAfterDate, setCreatedAfterDate] = useState<Date | null>(searchAfterDate === '' ? null : (()=>{
+    const [day, month, year] = searchAfterDate.split('.').map(Number);
+    return new Date(year, month - 1, day);
+  })());
   
-  const wrapSetValue = (value: string) => {if (value !== '') setShowClearButton(true); setValue(value);}
+  const wrapSetEquipmentTitle = (equipmentTitle: string) => {if (equipmentTitle !== '') setShowClearButton(true); setEquipmentTitle(equipmentTitle);}
   const wrapSetCreatedAfterDate = (date: Date | null) => {
     if (date !== null) {
         setShowClearButton(true);
@@ -53,15 +52,23 @@ const InputField: FC<SearchValue> = ({
         year: 'numeric',
       }) : '';
     setFilterAfterDate(dateFilter)
-}
+  }
+
+  const clearFilter = async () => {
+    wrapSetCreatedAfterDate(null);
+    setEquipmentTitle('');
+    setShowClearButton(false);
+    clearParams();
+    reset();
+  };
 
   return (
     <InputGroup className="custom-mb-3">
       <Form.Control
         className="custom-input"
         placeholder={placeholder}
-        value={value}
-        onChange={(e) => wrapSetValue(e.target.value)}
+        value={equipmentTitle}
+        onChange={(e) => wrapSetEquipmentTitle(e.target.value)}
       />
       
       {showClearButton && (

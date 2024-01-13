@@ -33,9 +33,9 @@ const mockEquipments: EquipmentImage[] = [
   },
 ];
 
-export const getEquipments = async (title = '', dateAfter=''): Promise<EquipmentImage[]> => {
+export const getEquipments = async (equipmentTitle = '', dateAfter=''): Promise<EquipmentImage[]> => {
   try {
-    const response = await fetch(`/api/v1/equipment/list?title=${title}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
+    const response = await fetch(`/api/v1/equipment/list?equipment=${equipmentTitle}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
       method: 'GET',
     });
 
@@ -68,6 +68,9 @@ export const getEquipments = async (title = '', dateAfter=''): Promise<Equipment
 
 export async function getImageForEquipment(equipmentUrl: string): Promise<string> {
   try {
+    if (equipmentUrl === '') {
+      return '/printer-icon.svg';
+    }
     const response = await fetch(equipmentUrl, {
       method: 'GET',
     });

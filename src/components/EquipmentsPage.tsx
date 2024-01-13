@@ -11,34 +11,36 @@ const EquipmentsPage: FC = () => {
   const navigateTo = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const searchTitle = queryParams.get('title') || '';
+  const searchEquipmentTitle = queryParams.get('equipment') || '';
   const searchDate = queryParams.get('createdAfter') || '';
 
-  const [searchValue, setSearchValue] = useState<string>(searchTitle);
+  const [searchEquipment, setSearchEquipment] = useState<string>(searchEquipmentTitle);
   const [searchAfterDate, setSearchAfterDate] = useState<string>(searchDate)
   const [equipments, setEquipments] = useState<EquipmentImage[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [ reset, setReset] = useState<Number>(0);
 
   const handleSearchSubmit = async () => {
     setLoading(true);
-    const data = await getEquipments(searchValue, searchAfterDate);
+    const data = await getEquipments(searchEquipment, searchAfterDate);
     setEquipments(data);
     setLoading(false);
   }
 
   useEffect(() => {
     handleSearchSubmit();
-  }, []);
+  }, [reset]);
 
   return (
     <div>
       <NavbarTechnicalEquipment />
           <InputField
-            value={searchValue}
-            setValue={(value)=>{
-                setSearchValue(value)
+            equipmentTitle={searchEquipment}
+            reset={()=>{setReset(reset === 0 ? 1 : 0)}}
+            setEquipmentTitle={(equipmentTitle)=>{
+                setSearchEquipment(equipmentTitle)
                 const queryParams = new URLSearchParams(location.search);
-                queryParams.set('title', value);
+                queryParams.set('equipment', equipmentTitle);
                 console.log(`${location.pathname}?${queryParams.toString()}`)
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);
             }}
@@ -54,6 +56,7 @@ const EquipmentsPage: FC = () => {
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);
             }
             }
+            searchAfterDate={searchAfterDate}
           />
 
           <Container className="mx-auto">
