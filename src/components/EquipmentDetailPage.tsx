@@ -22,15 +22,13 @@ const EquipmentDetailsPage: FC = () => {
     handlerGetDetail();
   }, [id]);
 
-  const breadcrumbsItems = [
-    { label: 'Оборудование', link: '/equipment/feed' },
-    { label: `${details?.title}`, link: '' }
-  ];
-
   return (
     <div>
         <NavbarTechnicalEquipment />
-        <Breadcrumbs items={breadcrumbsItems} />
+        <Breadcrumbs items={[
+    { label: 'Оборудование', link: '/equipment/feed' },
+    { label: `Подробнее`, link: '' }
+  ]} />
         <div className="model-card">
             <div className="model-card-image">
                 <img src={`${details?.equipment_image}`} alt={details?.title} className="model-detail-card" />

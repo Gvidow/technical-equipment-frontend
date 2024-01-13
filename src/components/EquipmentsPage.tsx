@@ -11,7 +11,7 @@ const EquipmentsPage: FC = () => {
   const navigateTo = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const searchTitle = queryParams.get('title') || '';
+  const searchTitle = queryParams.get('equipment') || '';
   const searchDate = queryParams.get('createdAfter') || '';
 
   const [searchValue, setSearchValue] = useState<string>(searchTitle);
@@ -38,7 +38,7 @@ const EquipmentsPage: FC = () => {
             setValue={(value)=>{
                 setSearchValue(value)
                 const queryParams = new URLSearchParams(location.search);
-                queryParams.set('title', value);
+                queryParams.set('equipment', value);
                 console.log(`${location.pathname}?${queryParams.toString()}`)
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);
             }}
