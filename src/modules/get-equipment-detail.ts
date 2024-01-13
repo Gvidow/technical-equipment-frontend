@@ -1,4 +1,4 @@
-import { getImageForEquipment } from './get-equipments';
+import { getImageForEquipment, mockEquipments } from './get-equipments';
 
 export interface EquipmentDetailsData {
     title: string;
@@ -20,7 +20,7 @@ const mockEquipmentDetails: EquipmentDetailsImage = {
 
 export const getEquipmentDetail = async (id: number): Promise<EquipmentDetailsImage> => {
     try {
-        const response = await fetch(`/api/v1/equipment/get/${id}/`, {
+        const response = await fetch(`http://localhost:8080/api/v1/equipment/get/${id}/`, {
             method: 'GET',
         });
         if (!response.ok) {
@@ -36,6 +36,20 @@ export const getEquipmentDetail = async (id: number): Promise<EquipmentDetailsIm
 
         return updatedEquipmentDetails;
     } catch (error) {
-        return mockEquipmentDetails;
+        let res: EquipmentDetailsImage | null = null;
+        mockEquipments.forEach(element => {
+            if (element.equipment_id === id) {
+                res = {
+                    title: element.equipment_title,
+                    description: element.equipment_description,
+                    equipment_image: element.equipment_image,
+                };
+            }
+        })
+        if (res === null) {
+            return mockEquipmentDetails;
+        } else {
+            return res;
+        }
     }
 }

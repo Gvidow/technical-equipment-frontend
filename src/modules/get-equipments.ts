@@ -12,7 +12,7 @@ export interface EquipmentData {
   picture: string;
 }
 
-const mockEquipments: EquipmentImage[] = [
+export const mockEquipments: EquipmentImage[] = [
   {
       equipment_id: 1,
       equipment_title: 'Принтер',
@@ -33,9 +33,9 @@ const mockEquipments: EquipmentImage[] = [
   },
 ];
 
-export const getEquipments = async (title = '', dateAfter=''): Promise<EquipmentImage[]> => {
+export const getEquipments = async (equipmentTitle = '', dateAfter=''): Promise<EquipmentImage[]> => {
   try {
-    const response = await fetch(`/api/v1/equipment/list?title=${title}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
+    const response = await fetch(`http://localhost:8080/api/v1/equipment/list?equipment=${equipmentTitle}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
       method: 'GET',
     });
 
