@@ -1,9 +1,12 @@
-import { FC, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Col, Row, Spinner, Container } from 'react-bootstrap'
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import NavbarTechnicalEquipment from './Navbar';
 import InputField from './InputField';
 import EquipmentCard from './EquipmentCard';
+import Header from './Header';
+
 import { getEquipments } from '../modules/get-equipments';
 import "./EquipmentsPage.css"
 
@@ -34,6 +37,7 @@ const EquipmentsPage = () => {
   return (
     <div>
       <NavbarTechnicalEquipment />
+      <Header breadcrumbs={['Оборудование']} showCart={true} showApp={true} />
           <InputField
             equipmentTitle={searchEquipment}
             reset={()=>{setReset(reset === 0 ? 1 : 0)}}

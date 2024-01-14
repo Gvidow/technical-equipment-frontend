@@ -5,7 +5,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import { FaShoppingCart } from "react-icons/fa";
 import "./Header.css";
 
-const Header = ({ showCart, showApp }) => {
+const Header = ({ breadcrumbs, showCart, showApp }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { draft_id } = useSelector((state) => state.bucket);
 
@@ -14,7 +14,7 @@ const Header = ({ showCart, showApp }) => {
   return (
     <div className="header">
       <div className="breadcrumbs-container">
-        <Breadcrumbs />
+        <Breadcrumbs list={breadcrumbs} />
       </div>
       {isAuthenticated && showApp && (
         <Link to="/modelings/applications" className="applications-link">

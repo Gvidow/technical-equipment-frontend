@@ -1,36 +1,28 @@
-import { FC, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import NavbarTechnicalEquipment from './Navbar';
-import Breadcrumbs from './Breadcrumbs';
-// import FooterEquipment from './Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import NavbarTechnicalEquipment from './Navbar';
+import Header from './Header';
 import { Link } from 'react-router-dom';
-import { getEquipmentDetail } from '../modules/get-equipment-detail';
-import './EquipmentDetailsPage.css'
+import { getEquipmentDetailAction } from '../actions/equipmentDetailActions';
+import './EquipmentDetailPage.css'
 
 const EquipmentDetailsPage = () => {
-  const [details, setDetails] = useState<EquipmentDetailsImage | null>(null);
-  const { id } = useParams();
-
-  const handlerGetDetail = async () => {
-    if (id) {
-      const data = await getEquipmentDetail(parseInt(id, 10));
-      setDetails(data);
-    }
-  }
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { id } = params;
+  const details = useSelector((state) => state.equipmentDetail.details);
 
   useEffect(() => {
-    handlerGetDetail();
-  }, [id]);
-
-  const breadcrumbsItems = [
-    { label: 'Оборудование', link: '/equipment/feed' },
-    { label: `${details?.title}`, link: '' }
-  ];
+    if (id) {
+      dispatch(getEquipmentDetailAction(id));
+    }
+  }, [id, dispatch, details?.modeling_name]);
 
   return (
     <div>
-        {/* <NavbarTechnicalEquipment /> */}
-        <Breadcrumbs items={breadcrumbsItems} />
+        <NavbarTechnicalEquipment />
+        <Header breadcrumbs={['Оборудование', details?.title]} showCart={false} showApp={true}/>
         <div className="model-card">
             <div className="model-card-image">
                 <img src={`${details?.equipment_image}`} alt={details?.title} className="model-detail-card" />
@@ -41,7 +33,6 @@ const EquipmentDetailsPage = () => {
                 <Link to="/equipment/feed" className="btn-back-to-models">Вернуться к услугам</Link>
             </div>
         </div>
-        {/* <FooterEquipment /> */}
     </div>
   );
 }

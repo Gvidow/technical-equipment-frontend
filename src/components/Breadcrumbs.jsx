@@ -3,12 +3,12 @@ import { FaHome, FaChevronRight } from "react-icons/fa";
 
 import "./Breadcrumbs.css";
 
-const Breadcrumbs = () => {
+const Breadcrumbs = ({ list }) => {
   const location = useLocation();
   const paths = location.pathname.split("/").filter((crumb) => crumb !== "");
 
   const breadcrumbTexts = {
-    modelings: "Модели ",
+    equipment: "Оборудование",
     signup: "Регистрация",
     login: "Войти",
     cart: "Мои заявки",
@@ -16,9 +16,23 @@ const Breadcrumbs = () => {
     detail: "Детали",
   };
 
+  const mapTitleToURL = {
+    'Оборудование': '/equipment/feed'
+  }
+
   const isDetailView = paths.length === 3 && paths[0] === "equipment" && paths[1] === "get" && /^\d+$/.test(paths[2]);
 
-  const breadcrumbs = paths.map((path, index) => {
+  const breadcrumbs = list ? 
+    list.map((element, index) => {
+      return (
+        <div className="crumb" key={element}>
+          <Link to={mapTitleToURL[element] || '#'} className="breadcrumb-link">
+            {element}
+          </Link>
+          {index < list.length - 1 && <FaChevronRight className="chevron-icon" />}
+        </div>
+      );
+    }) : paths.map((path, index) => {
     const currentPath = `/${paths.slice(0, index + 1).join("/")}`;
     const text = isDetailView && index === paths.length - 1 ? "Подробнее" : breadcrumbTexts[path] || path;
 

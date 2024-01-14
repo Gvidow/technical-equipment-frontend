@@ -6,7 +6,7 @@ const equipmentDetailSlice = createSlice({
     details: {},
   },
   reducers: {
-    getModelingsDetailsSlice: (state, action) => {
+    getEquipmentDetailSlice: (state, action) => {
       state.details = action.payload;
     },
   },

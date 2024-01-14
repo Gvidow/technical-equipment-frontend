@@ -1,13 +1,13 @@
-import { getModelingsDetail } from '../modules/get-modelings-detail';
+import { getEquipmentDetail } from '../modules/get-equipment-detail';
 
-import { getModelingsDetailsSlice } from '../slices/modelingsDetailsSlice';
+import { getEquipmentDetailSlice } from '../slices/equipmentDetailSlice';
 
-export const getModelingsDetails = (id) => async (dispatch) => {
+export const getEquipmentDetailAction = (id) => async (dispatch) => {
   try {
 
-    const response = await getModelingsDetail(id);
+    const response = await getEquipmentDetail(id);
 
-    dispatch(getModelingsDetailsSlice(response));
+    dispatch(getEquipmentDetailSlice(response));
   } catch (error) {
     console.error(`Ошибка при получении данных о модели ID: ${id}:`, error);
   }
