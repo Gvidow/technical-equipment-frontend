@@ -4,21 +4,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import NavbarTechnicalEquipment from './Navbar';
 import InputField from './InputField';
 import EquipmentCard from './EquipmentCard';
-import { EquipmentImage, getEquipments } from '../modules/get-equipments';
+import { getEquipments } from '../modules/get-equipments';
 import "./EquipmentsPage.css"
 
-const EquipmentsPage: FC = () => {
+const EquipmentsPage = () => {
   const navigateTo = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchEquipmentTitle = queryParams.get('equipment') || '';
   const searchDate = queryParams.get('createdAfter') || '';
 
-  const [searchEquipment, setSearchEquipment] = useState<string>(searchEquipmentTitle);
-  const [searchAfterDate, setSearchAfterDate] = useState<string>(searchDate)
-  const [equipments, setEquipments] = useState<EquipmentImage[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [ reset, setReset] = useState<Number>(0);
+  const [searchEquipment, setSearchEquipment] = useState(searchEquipmentTitle);
+  const [searchAfterDate, setSearchAfterDate] = useState(searchDate)
+  const [equipments, setEquipments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [ reset, setReset] = useState(0);
 
   const handleSearchSubmit = async () => {
     setLoading(true);
@@ -49,7 +49,7 @@ const EquipmentsPage: FC = () => {
             loading={loading}
             placeholder="Введите поисковый запрос"
             buttonTitle="Искать"
-            setFilterAfterDate={(date: string) => {
+            setFilterAfterDate={(date) => {
                 setSearchAfterDate(date);
                 const queryParams = new URLSearchParams(location.search);
                 queryParams.set('createdAfter', date);

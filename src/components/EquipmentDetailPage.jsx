@@ -1,15 +1,15 @@
 import { FC, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import NavbarTechnicalEquipment from './Navbar';
+// import NavbarTechnicalEquipment from './Navbar';
 import Breadcrumbs from './Breadcrumbs';
 // import FooterEquipment from './Footer';
 import { Link } from 'react-router-dom';
-import { EquipmentDetailsImage, getEquipmentDetail } from '../modules/get-equipment-detail';
+import { getEquipmentDetail } from '../modules/get-equipment-detail';
 import './EquipmentDetailsPage.css'
 
-const EquipmentDetailsPage: FC = () => {
+const EquipmentDetailsPage = () => {
   const [details, setDetails] = useState<EquipmentDetailsImage | null>(null);
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
 
   const handlerGetDetail = async () => {
     if (id) {
@@ -29,7 +29,7 @@ const EquipmentDetailsPage: FC = () => {
 
   return (
     <div>
-        <NavbarTechnicalEquipment />
+        {/* <NavbarTechnicalEquipment /> */}
         <Breadcrumbs items={breadcrumbsItems} />
         <div className="model-card">
             <div className="model-card-image">
