@@ -31,7 +31,7 @@ function NavbarTechnicalEquipment() {
   return (
     <Navbar className="color-navbar" expand="lg">
       <Container>
-        <Link to="/">
+        <Link to="/equipment/feed">
           <Image src={logoImage} roundedCircle className="logo-img" alt="Логотип AnyMetro" />
         </Link>
         <Navbar.Brand as={Link} to="/equipment/feed" className="brand-text">

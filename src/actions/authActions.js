@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const loginUser = (login, password) => async (dispatch) => {
   try {
-    const response = await axios.post('http://localhost:8080/api/v1/auth/login/', {
+    const response = await axios.post('/api/v1/auth/login', {
       login,
       password,
     }, {

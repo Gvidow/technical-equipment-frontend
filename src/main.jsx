@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 
 import EquipmentsPage from './components/EquipmentsPage'
 import EquipmentDetailPage from './components/EquipmentDetailPage'
+import AuthorizationPage from './components/AuthorizationPage';
+import RegistrationPage from './components/RegistrationPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -33,14 +35,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
     <RouterComponent>
       <Routes>
-        <Route path='/*' element={<RedirectComponent />}/>
+        {/* <Route path='/*' element={<RedirectComponent />}/> */}
         <Route path='/equipment/feed' element={<EquipmentsPage />}/>
         <Route path='/equipment/get/:id' element={<EquipmentDetailPage />}/>
-        {/* <Route path="modelings/:id/" element={<ModelingsDetailsPage />} />
-        <Route path="login/" element={<AuthorizationPage />}/>
-        <Route path="logout/" element={<Logout />}/>
-        <Route path="registration/" element={<RegistrationPage />}/>
-        <Route path="modelings/cart/" element={<CartPage />}/>
+        <Route path="/login" element={<AuthorizationPage />}/>
+        {/* <Route path="logout/" element={<Logout />}/> */}
+        <Route path="/signup" element={<RegistrationPage />}/>
+        {/* <Route path="modelings/cart/" element={<CartPage />}/>
         <Route path="modelings/applications/" element={<ApplicationsPage />}/>
         <Route path="/modelings/applications/detail/:id" element={<AppDetail />}/> */}
       </Routes>
