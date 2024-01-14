@@ -1,21 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-// import modelingsReducer from './slices/modelingsSlice';
-// import modelingsDetailsReducer from './slices/modelingsDetailsSlice';
+import equipmentReducer from './slices/equipmentSlice';
+import equipmentDetailReducer from './slices/equipmentDetailSlice';
 import authReducer from './slices/authSlice';
-// import bucketReducer from './slices/bucketSlice';
-// import applicationReducer from './slices/applicationSlice';
+import bucketReducer from './slices/bucketSlice';
+import requestReducer from './slices/requestSlice';
 
 const store = configureStore({
   reducer: {
-    // modelings: modelingsReducer,
-    // modelingsDetails: modelingsDetailsReducer,
+    equipment: equipmentReducer,
+    equipmentDetail: equipmentDetailReducer,
     auth: authReducer,
-    // bucket: bucketReducer,
-    // applications: applicationReducer,
+    bucket: bucketReducer,
+    request: requestReducer,
   },
     middleware: [thunk],
 });
-
 
 export default store;
