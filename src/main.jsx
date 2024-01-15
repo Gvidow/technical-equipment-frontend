@@ -6,6 +6,7 @@ import EquipmentsPage from './components/EquipmentsPage'
 import EquipmentDetailPage from './components/EquipmentDetailPage'
 import AuthorizationPage from './components/AuthorizationPage';
 import RegistrationPage from './components/RegistrationPage';
+import Logout from './components/Logout';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -31,7 +32,7 @@ function RedirectComponent() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
     <RouterComponent>
       <Routes>
@@ -39,7 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/equipment/feed' element={<EquipmentsPage />}/>
         <Route path='/equipment/get/:id' element={<EquipmentDetailPage />}/>
         <Route path="/login" element={<AuthorizationPage />}/>
-        {/* <Route path="logout/" element={<Logout />}/> */}
+        <Route path="/logout" element={<Logout />}/>
         <Route path="/signup" element={<RegistrationPage />}/>
         {/* <Route path="modelings/cart/" element={<CartPage />}/>
         <Route path="modelings/applications/" element={<ApplicationsPage />}/>
@@ -47,6 +48,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Routes>
       <ToastContainer position="top-right" autoClose={1000} />
     </RouterComponent>
-  </Provider>
-  </React.StrictMode>,
+  </Provider>,
+  // </React.StrictMode>,
 )

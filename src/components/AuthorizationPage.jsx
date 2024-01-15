@@ -28,14 +28,14 @@ const AuthorizationPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/modelings');
+      navigate('/equipment/feed');
     }
   }, [isAuthenticated, navigate]);
 
   const handleLogin = async () => {
     await dispatch(loginUser(username, password));
     if (isAuthenticated) {
-      navigate('/modelings');
+      navigate('/equipment/feed');
     };
   };
 
@@ -67,7 +67,7 @@ const AuthorizationPage = () => {
               <div className="custom-button" onClick={handleLogin}>
                 Войти
               </div>
-              <Link className="custom-button" to="/registration">
+              <Link className="custom-button" to="/signup">
                 Не зарегистрированы?
               </Link>
             </div>
