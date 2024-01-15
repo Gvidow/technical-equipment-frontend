@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { setBucketItem, setDraftId, setPeoplePerMinute, setTimeInterval, resetBucket } from '../slices/bucketSlice.js';
-import { getApplicationById } from "../modules/get-application-byid.ts";
+import { getRequestById } from "../modules/get-request-byid.ts";
 
 import { toast } from 'react-toastify';
 
 export const getBucket = (draft_id) => async (dispatch) => {
   try {
-    const application = await getApplicationById(draft_id);
+    const application = await getRequestById(draft_id);
 
     if (application && application.modeling[0].modeling_id) {
         dispatch(setBucketItem(application.modeling));
@@ -22,13 +22,10 @@ export const getBucket = (draft_id) => async (dispatch) => {
   }
 };
 
-export const addModelingToBucket = (modeling_id) => async (dispatch, getState) => {
+export const addEquipmentToBucket = (equipment_id) => async (dispatch, getState) => {
   try {
     const response = await axios.post(
-      `http://localhost:80/api/modelings/add/`,
-      {
-        modeling_id,
-      },
+      `/api/v1/equipment/last/${equipment_id}`,
       {
         withCredentials: true,
       }
