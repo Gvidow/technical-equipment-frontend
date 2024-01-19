@@ -41,10 +41,7 @@ function NavbarTechnicalEquipment() {
           {isAuthenticated ? (
             <>
               <div className='user-name'>
-               {user?.first_name}
-              </div>
-              <div className='user-name'>
-               {user?.second_name}
+               {user?.username}
               </div>
               <div className="user-icon" onClick={handleUserProfileClick}>
                 <Image src={personIcon} className="logo-img" alt="Иконка пользователя" />
