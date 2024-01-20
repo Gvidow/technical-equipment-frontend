@@ -22,17 +22,21 @@ export const getBucket = (draft_id) => async (dispatch) => {
   }
 };
 
-export const addEquipmentToBucket = (equipment_id) => async (dispatch, getState) => {
+export const addEquipmentToBucket = (equipment_id, type, access_token) => async (dispatch, getState) => {
   try {
     const response = await axios.post(
       `/api/v1/equipment/last/${equipment_id}`,
+      null,
       {
         withCredentials: true,
+        headers: {
+          Authorization: `${type} ${access_token}`,
+        },
       }
     );
     
     
-    if (response.status === 201) {
+    if (response.status === 200) {
       dispatch(setDraftId(response.data.draft_id));
       // dispatch(getBucket(response.data.draft_id));
       toast.success('Услуга добавлена в корзину');

@@ -1,0 +1,157 @@
+.applications-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.draft-container {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    padding: 5%;
+    border-radius: 20px;
+    width: 70%;
+    height: 100%;
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Выравнивание по центру по вертикали */
+    justify-content: center; /* Выравнивание по центру по горизонтали */
+}
+  
+.draft-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0a5baf;
+    text-align: center;
+    margin-top: -6%;
+}
+  
+
+.parameters-modeling-box {
+    font-family: 'Roboto', sans-serif;    
+}
+  
+.rows-param {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.param-output {
+    font-family: 'Roboto', sans-serif;
+    color: #0a5baf;
+    margin-top: 4px;
+}
+  
+.input-form {
+    font-family: 'Roboto', sans-serif;
+    color: #0a5baf;
+    margin-top: 3px;
+}
+
+.input-form label {
+    margin-right: 5px;
+}
+  
+.input-form input[type="number"]::-webkit-inner-spin-button,
+.input-form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-form input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+
+.table-bordered {
+    color: #0a5baf;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+.table-bordered th, .table-bordered td {
+    border: 5px solid #0a5baf;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+  
+.del-draft-button, .accept-draft-button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    padding: 8px;
+    margin-top: 1%;
+    cursor: pointer;
+    border-radius: 20px;
+    color: white;
+    border: none;
+}
+  
+.del-draft-button {
+    background-color: #c32739;
+}
+
+.del-draft-button:hover {
+  background-color: #7e111d;
+}
+
+.accept-draft-button {
+    background-color: #139c53;
+    margin-bottom: 5px;
+}
+
+.accept-draft-button:hover {
+  background-color: #11703d;
+
+}
+
+.not-set {
+    color: rgb(208, 84, 84);
+    font-style: italic;
+    margin-left: 4px;
+}
+
+.set {
+    color: #139650;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+
+.table-applications {
+  color: #0a5baf;
+  border-collapse: collapse;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.table-applications th, .table-applications td {
+  border: 2px solid #0a5baf;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.applications-title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0a5baf;
+    text-align: center;
+    margin-top: 0.5%;
+}
+
+.accept-parameters-button {
+  margin-top: -1px;
+}
+
+.main-draft-button {
+  margin-top: 20px;
+  margin-right: 10px!important;
+}

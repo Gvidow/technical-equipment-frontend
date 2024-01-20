@@ -7,6 +7,7 @@ import EquipmentDetailPage from './components/EquipmentDetailPage'
 import AuthorizationPage from './components/AuthorizationPage';
 import RegistrationPage from './components/RegistrationPage';
 import Logout from './components/Logout';
+import CartPage from './components/CartPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -42,9 +43,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<AuthorizationPage />}/>
         <Route path="/logout" element={<Logout />}/>
         <Route path="/signup" element={<RegistrationPage />}/>
-        {/* <Route path="modelings/cart/" element={<CartPage />}/>
-        <Route path="modelings/applications/" element={<ApplicationsPage />}/>
-        <Route path="/modelings/applications/detail/:id" element={<AppDetail />}/> */}
+        <Route path="/equipment/cart" element={<CartPage />}/>
+        {/* <Route path="modelings/applications/" element={<ApplicationsPage />}/> */}
+        {/* <Route path="/modelings/applications/detail/:id" element={<AppDetail />}/> */}
       </Routes>
       <ToastContainer position="top-right" autoClose={1000} />
     </RouterComponent>

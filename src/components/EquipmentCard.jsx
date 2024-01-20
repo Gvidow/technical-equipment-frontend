@@ -19,7 +19,7 @@ const EquipmentCard = ({
   const isUserAuthorized = isAuthenticated && user && user.role === 'user';
   
   const handleAddToBucket = () => {
-    dispatch(addEquipmentToBucket(modeling_id));
+    dispatch(addEquipmentToBucket(equipment_id, user.token_type, user.access_token));
   };
 
   return (

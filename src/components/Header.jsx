@@ -22,7 +22,7 @@ const Header = ({ breadcrumbs, showCart, showApp }) => {
         </Link>
       )}
       {isAuthenticated && showCart && (
-        <Link to={isCartActive ? "/modelings/cart" : "#"} className="cart-link">
+        <Link to={isCartActive ? "/equipment/cart" : "#"} className="cart-link">
           <div className={`cart-icon-container bucket-style ${isCartActive ? '' : 'inactive-cart'}`} disabled={!isCartActive}>
             <FaShoppingCart size={30} className="" />
           </div>
