@@ -2,45 +2,39 @@ import {
     setSearchEquipmentTitle,
     setEquipments,
     setLoading,
-    setMinPrice,
-    setMaxPrice,
 } from '../slices/equipmentSlice';
   
-import { getEquipments } from '../modules/get-modelings';
+import { getEquipments } from '../modules/get-equipments';
 import { setDraftId } from '../slices/bucketSlice';
   
 const filterEquipments = (
     data,
     searchEquipmentTitle,
-    minPrice,
-    maxPrice,
+    searchCreatedAfter,
 ) => {
-    const filteredData = data.filter((model) => {
-      const modelNameMatches = model.modeling_name.toLowerCase().includes(searchValue.toLowerCase());
-      const priceInRange = parseFloat(model.modeling_price) >= minPrice && parseFloat(model.modeling_price) <= maxPrice;
-      return modelNameMatches && priceInRange;
+    const filteredData = data.filter((equipment) => {
+      const equipmentTitleMatches = equipment.equipment_title.toLowerCase().includes(searchEquipmentTitle.toLowerCase());
+      return equipmentTitleMatches;
     });
   
     return filteredData;
 };
   
-export const setModelingAction = (searchValue, minPrice, maxPrice) => async (dispatch, getState) => {
+export const setEquipmentsAction = (searchEquipmentTitle, searchCreatedAfter, token_type, access_token) => async (dispatch, getState) => {
     try {
       dispatch(setLoading(true));
-  
-      const response = await getModelings(searchValue, minPrice, maxPrice);
+      const response = await getEquipments(searchEquipmentTitle, searchCreatedAfter, token_type, access_token);
       const draft_id = response[0];
       const data = response[1];
   
-      if (data[0].modeling_image === '/mock.jpg' && data[0].modeling_name === 'Станция Щёлковская') {
-        const filteredData = filterModelings(data, searchValue, minPrice, maxPrice);
-        dispatch(setModelings(filteredData));
+      if (data[0].equipment_image === '/printer-icon.svg' && data[0].equipment_title === 'Принтер') {
+        const filteredData = filterModelings(data, searchEquipmentTitle, searchCreatedAfter);
+        dispatch(setEquipments(filteredData));
       } else {
-        dispatch(setModelings(data));
+        dispatch(setEquipments(data));
       }
   
       dispatch(setLoading(false));
-  
   
       if (draft_id) {
         dispatch(setDraftId( draft_id ));
@@ -52,14 +46,6 @@ export const setModelingAction = (searchValue, minPrice, maxPrice) => async (dis
     }
 };
   
-export const setSearchValueAction = (searchValue) => (dispatch) => {
-    dispatch(setSearchValue(searchValue));
-};
-  
-export const setMinPriceAction = (minPrice) => (dispatch) => {
-    dispatch(setMinPrice(minPrice));
-};
-  
-export const setMaxPriceAction = (maxPrice) => (dispatch) => {
-    dispatch(setMaxPrice(maxPrice));
+export const setSearchEquipmentTitleAction = (searchValue) => (dispatch) => {
+    dispatch(setSearchEquipmentTitle(searchValue));
 };

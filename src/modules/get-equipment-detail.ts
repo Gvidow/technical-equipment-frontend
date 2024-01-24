@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getImageForEquipment } from './get-equipments';
 
 export interface EquipmentDetailsData {
@@ -20,13 +21,13 @@ const mockEquipmentDetails: EquipmentDetailsImage = {
 
 export const getEquipmentDetail = async (id: number): Promise<EquipmentDetailsImage> => {
     try {
-        const response = await fetch(`/api/v1/equipment/get/${id}/`, {
-            method: 'GET',
+        const response = await axios.get(`/api/v1/equipment/get/${id}/`, {
+            withCredentials: true,
         });
-        if (!response.ok) {
+        if (response.status !== 200) {
             return mockEquipmentDetails;
         }
-        const data: EquipmentDetailsData = (await response.json()).body;
+        const data: EquipmentDetailsData = response.data.body;
 
         const equipmentImage = await getImageForEquipment(data.picture);
         const updatedEquipmentDetails: EquipmentDetailsImage = {

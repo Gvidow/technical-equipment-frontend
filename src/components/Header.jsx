@@ -17,7 +17,7 @@ const Header = ({ breadcrumbs, showCart, showApp }) => {
         <Breadcrumbs list={breadcrumbs} />
       </div>
       {isAuthenticated && showApp && (
-        <Link to="/modelings/applications" className="applications-link">
+        <Link to="/equipment/requests" className="applications-link">
           <a className="applications-button">Заявки</a>
         </Link>
       )}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { access } from 'fs';
 
 interface UserModel {
   id: number;
@@ -38,10 +39,13 @@ interface Request {
   modeling: ModelingModel[];
 }
 
-export async function getRequestById(pk: string): Promise<Request | null> {
+export async function getRequestById(pk: string, token_type: string, access_token: string): Promise<Request | null> {
   try {
     const response = await axios.get<Request>(`/api/v1/request/get/${pk}`, {
       withCredentials: true,
+      headers: {
+        Authorization: `${token_type} ${access_token}`
+      }
     });
 
     if (response.status === 200) {

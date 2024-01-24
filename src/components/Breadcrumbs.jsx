@@ -17,7 +17,8 @@ const Breadcrumbs = ({ list }) => {
   };
 
   const mapTitleToURL = {
-    'Оборудование': '/equipment/feed'
+    'Оборудование': '/equipment/feed',
+    'Заявки': '/equipment/requests'
   }
 
   const isDetailView = paths.length === 3 && paths[0] === "equipment" && paths[1] === "get" && /^\d+$/.test(paths[2]);

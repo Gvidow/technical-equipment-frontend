@@ -4,18 +4,34 @@ import { getRequestById } from "../modules/get-request-byid.ts";
 
 import { toast } from 'react-toastify';
 
-export const getBucket = (draft_id) => async (dispatch) => {
+export const setBucket = (application) => async (dispatch) => {
   try {
-    const application = await getRequestById(draft_id);
-
-    if (application && application.modeling[0].modeling_id) {
-        dispatch(setBucketItem(application.modeling));
-        dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
-        dispatch(setTimeInterval(application.application_data.time_interval));
+    if (application && application.equipments) {
+        dispatch(setBucketItem(application.equipments));
+        // dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
+        // dispatch(setTimeInterval(application.application_data.time_interval));
     } else if (application) {
         dispatch(setBucketItem([]));
-        dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
-        dispatch(setTimeInterval(application.application_data.time_interval));
+        // dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
+        // dispatch(setTimeInterval(application.application_data.time_interval));
+    }
+  } catch (error) {
+    console.error('Ошибка во время установки корзины:', error);
+  }
+};
+
+export const getBucket = (draft_id, token_type, access_token) => async (dispatch) => {
+  try {
+    const application = (await getRequestById(draft_id, token_type, access_token)).body;
+
+    if (application && application.equipments) {
+        dispatch(setBucketItem(application.equipments));
+        // dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
+        // dispatch(setTimeInterval(application.application_data.time_interval));
+    } else if (application) {
+        dispatch(setBucketItem([]));
+        // dispatch(setPeoplePerMinute(application.application_data.people_per_minute));
+        // dispatch(setTimeInterval(application.application_data.time_interval));
     }
   } catch (error) {
     console.error('Error getBucket:', error);
@@ -36,9 +52,11 @@ export const addEquipmentToBucket = (equipment_id, type, access_token) => async 
     );
     
     
-    if (response.status === 200) {
-      dispatch(setDraftId(response.data.draft_id));
+    if (response.status === 201) {
+      dispatch(setDraftId(response.data.body.draft_id));
       // dispatch(getBucket(response.data.draft_id));
+      toast.success('Услуга добавлена в корзину');
+    } else if (response.status === 200) {
       toast.success('Услуга добавлена в корзину');
     }
 
@@ -53,17 +71,19 @@ export const addEquipmentToBucket = (equipment_id, type, access_token) => async 
   }
 };
 
-export const deleteModelingFromBucket = (modeling_id) => async (dispatch, getState) => {
+export const deleteEquipmentFromBucket = (equipment_id, token_type, access_token) => async (dispatch, getState) => {
   try {
     const { draft_id } = getState().bucket;
 
-    const response = await axios.delete(`http://localhost:80/api/applications/${draft_id}/delete_modeling/`, {
-      data: { modeling_id },
+    const response = await axios.delete(`/api/v1/order/delete/${equipment_id}`, {
       withCredentials: true,
+      headers: {
+        Authorization: `${token_type} ${access_token}`
+      }
     });
 
     if (response.status === 200) {
-      dispatch(getBucket(draft_id));
+      dispatch(getBucket(draft_id, token_type, access_token));
     } else {
       console.error(`Ошибка во время удаления услуги из корзины. Статус: ${response.status}`);
     }
@@ -92,13 +112,15 @@ export const setParametersBucket = (people_per_minute, time_interval) => async (
 };
 
 
-export const delBucket = () => async (dispatch, getState) => {
+export const delBucket = (token_type, access_token) => async (dispatch, getState) => {
     try {
-      const { draft_id } = getState().bucket;
-
-      if (draft_id) {
-        await axios.delete(`http://localhost:80/api/applications/${draft_id}/user_delete/`, {
+      const draft = getState().bucket;
+      if (draft) {
+        await axios.delete(`/api/v1/request/delete/${draft.draft_id}`, {
           withCredentials: true,
+          headers: {
+            Authorization: `${token_type} ${access_token}`
+          }
         });
       }
       dispatch(resetBucket());
@@ -109,16 +131,22 @@ export const delBucket = () => async (dispatch, getState) => {
 };
 
 
-export const sendBucket = () => async (dispatch, getState) => {
+export const sendBucket = (token_type, access_token) => async (dispatch, getState) => {
     try {
-      const { draft_id, people_per_minute, time_interval } = getState().bucket;
-      if (people_per_minute == null || time_interval == null) {
-        toast.error('Нельзя сформировать заявку без обязательных полей');
-        return;
-      }
-      const response = await axios.put(`http://localhost:80/api/applications/${draft_id}/user_set_status/`,
-        {status: 'WORK', people_per_minute, time_interval },
-        {withCredentials: true},
+      const draft = getState().bucket;
+      console.log('111111111111+', draft.draft_id)
+      // if (people_per_minute == null || time_interval == null) {
+      //   toast.error('Нельзя сформировать заявку без обязательных полей');
+      //   return;
+      // }
+      const response = await axios.put(`/api/v1/request/format/${draft.draft_id}`,
+        null,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `${token_type} ${access_token}`
+          }
+        },
       );
   
       if (response.status === 200) {

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface EquipmentImage {
   equipment_id: number;
   equipment_title: string;
@@ -33,16 +35,22 @@ const mockEquipments: EquipmentImage[] = [
   },
 ];
 
-export const getEquipments = async (equipmentTitle = '', dateAfter=''): Promise<EquipmentImage[]> => {
+const MAX_IMAGE_RETRIES = 3;
+
+export const getEquipments = async (equipmentTitle = '', dateAfter='', token_type: string | null, access_token: string | null): Promise<[number | null, EquipmentImage[]]> => {
   try {
-    const response = await fetch(`/api/v1/equipment/list?equipment=${equipmentTitle}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
-      method: 'GET',
+    const response = await axios.get(`/api/v1/equipment/list?equipment=${equipmentTitle}${dateAfter !== '' ? `&createdAfter=${dateAfter}`:''}`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `${token_type} ${access_token}`
+      }
     });
 
-    if (response.ok) {
-      const res: any = await response.json();
-      const data: EquipmentData[] = res.body.equipments;
-      console.log(data)
+    if (response.status === 200) {
+      const data: EquipmentData[] = response.data.body.equipments;
+
+      const draft_id = response.data.body.last_request_id;
+
       const equipmentImageData: EquipmentImage[] = [];
 
       for (const equipment of data) {
@@ -52,33 +60,32 @@ export const getEquipments = async (equipmentTitle = '', dateAfter=''): Promise<
           equipment_description: equipment.description,
           equipment_image: await getImageForEquipment(equipment.picture),
         });
-      }      
+      }    
 
-      return equipmentImageData;
+      return [draft_id, equipmentImageData];
     } else {
-      return mockEquipments;
+      return [null, mockEquipments];
     }
   } catch (error) {
     console.error('Произошла ошибка:', error);
-    return mockEquipments;
+    return [null, mockEquipments];
   }
 }
-
-
 
 export async function getImageForEquipment(equipmentUrl: string): Promise<string> {
   try {
     if (equipmentUrl === '') {
       return '/printer-icon.svg';
     }
-    const response = await fetch(equipmentUrl, {
-      method: 'GET',
+    const response = await axios.get(equipmentUrl, {
+      responseType: 'arraybuffer',
+      withCredentials: true,
     });
 
-    if (response.ok) {
-      const imageBuffer = await response.arrayBuffer();
+    if (response.status === 200) {
+      const imageBuffer = await response.data;
       const base64String = arrayBufferToBase64(imageBuffer);
-      return `data:${response.headers.get('Content-Type')};base64,${base64String}`;
+      return `data:${response.headers['content-type']};base64,${base64String}`;
     } else {
       return '/printer-icon.svg';
     }
@@ -91,7 +98,11 @@ export async function getImageForEquipment(equipmentUrl: string): Promise<string
   
 function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
   const binaryArray = new Uint8Array(arrayBuffer);
-  const binaryString = String.fromCharCode(...binaryArray);
-  const base64String = btoa(binaryString);
-  return base64String;
+  const len = binaryArray.length;
+  let binaryString = '';
+
+  for (let i = 0; i < len; i++) {
+    binaryString += String.fromCharCode(binaryArray[i]);
+  }
+  return btoa(binaryString);
 }

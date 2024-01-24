@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useCustomNavigate } from '../modules/redirect'
 
-import NavbarAnyMetro from './Navbar';
+import NavbarTechnicalEquipment from './Navbar';
 import Header from './Header';
 
 
 import './CartPage.css'
 
-import { getBucket, deleteModelingFromBucket, setParametersBucket, sendBucket, delBucket } from '../actions/bucketActions'
+import { getBucket, deleteEquipmentFromBucket, setParametersBucket, sendBucket, delBucket } from '../actions/bucketActions'
 
 
-const DraftApplicationTable = ({ bucket }) => {  
+const DraftApplicationTable = ({ bucket, user }) => {  
   const navigate = useCustomNavigate();
 
   const dispatch = useDispatch();
@@ -26,80 +26,47 @@ const DraftApplicationTable = ({ bucket }) => {
         dispatch(setParametersBucket(peoplePerMinuteInt, timeIntervalInt ));  
     };
   
-    const handleRemoveModeling = (modeling_id) => {
-      dispatch(deleteModelingFromBucket(modeling_id));
+    const handleRemoveEquipment = (equipment_id) => {
+      dispatch(deleteEquipmentFromBucket(equipment_id, user.token_type, user.access_token));
     };
 
     const handleSendBucket = async () => {
-        await dispatch(sendBucket());
+        console.log('eeeeeee', bucket)
+        await dispatch(sendBucket(user.token_type, user.access_token));
         navigate('/equipment/feed');
     };
 
     const handleDelBucket = async () => {
-      await dispatch(delBucket());
+      console.log(123445)
+      await dispatch(delBucket(user.token_type, user.access_token));
       navigate('/equipment/feed');
     };
+    console.log(bucket)
+
   
     return (
       <div className='draft-container'>
         <div className='draft-title'>Черновая заявка</div>
         <div className='parameters-modeling-box'>
           <div className='rows-param'>
-            <div className='param-output'>
-                <strong>Людей в минуту:</strong>
-                {bucket.people_per_minute !== null ? (
-                    <span className="set">{bucket.people_per_minute}</span>
-                ) : (
-                    <span className="not-set">Значение не установлено</span>
-                )}
-            </div>
-            
-            <div className='param-output'>
-                <strong>Интервал времени:</strong>
-                {bucket.time_interval !== null ? (
-                    <span className="set">{bucket.time_interval}</span>
-                ) : (
-                    <span className="not-set">Значение не установлено</span>
-                )}
-            </div>
-          </div>
-          <div className='rows-param'>
-            <div className='input-form'>
-              <label htmlFor="peoplePerMinute">Людей в минуту:</label>
-                <input
-                  type="number"
-                  id="peoplePerMinute"
-                  value={peoplePerMinute}
-                  onChange={(e) => setPeoplePerMinute(e.target.value)}
-                />
-            </div>
-            <div className='input-form'>
-              <label htmlFor="timeInterval">Интервал времени:</label>
-              <input
-                type="number"
-                id="timeInterval"
-                value={timeInterval}
-                onChange={(e) => setTimeInterval(e.target.value)}
-              />
-            </div>
-            <button className='accept-draft-button accept-parameters-button' onClick={handleApplyParameters}>Применить параметры</button>
+            {/* <button className='accept-draft-button accept-parameters-button' onClick={redirectToDetail}></button> */}
           </div>
         </div>
         <table className="table-bordered">
           <thead>
             <tr>
               <th>Название</th>
-              <th>Цена, руб.</th>
+              <th>Количество</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {bucket.bucketItems.map((service) => (
-              <tr key={service.modeling_id}>
-                <td>{service.modeling_name}</td>
-                <td>{service.modeling_price}</td>
+            {bucket.bucketItems.map((equipment) => (
+              <tr key={equipment.id}>
+                <td>{equipment.title}</td>
+                <td>{equipment.count}</td>
                 <td>
-                  <button className='del-draft-button' onClick={() => handleRemoveModeling(service.modeling_id)}>Удалить</button>
+                  <button className='del-draft-button' onClick={() => handleRemoveEquipment(equipment.id)}>Удалить</button>
                 </td>
               </tr>
             ))}
@@ -123,21 +90,22 @@ const CartPage = () => {
   const navigate = useCustomNavigate();
 
   useEffect(() => {
-    if (user && user.role === 'USR') {
-      dispatch(getBucket(bucket.draft_id));
+    if (user && user.role === 'user') {
+      dispatch(getBucket(bucket.draft_id, user.token_type, user.access_token));
     } else {
-      navigate('/modelings');
+      navigate('/equipment/feed');
     }
   }, [dispatch]);
 
   return (
     <div>
-      <NavbarAnyMetro />
-      <Header showCart={false} showApp={true}/>
+      <NavbarTechnicalEquipment />
+      <Header breadcrumbs={['Оборудование', 'Корзина']} showCart={false} showApp={true}/>
       <div className="applications-container">
         {bucket.draft_id !== null && (
           <DraftApplicationTable
             bucket={bucket}
+            user={user}
           />
         )}
       </div>

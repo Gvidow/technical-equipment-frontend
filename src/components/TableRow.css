@@ -1,0 +1,70 @@
+.status-cell {
+    font-weight: bold;
+}
+  
+.status-cell.operation {
+    background-color: rgba(255, 255, 0, 0.836);
+}
+  
+.status-cell.completed {
+    background-color: rgba(0, 128, 0, 0.604);
+}
+  
+.status-cell.canc {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.modeling-list {
+    margin-top: 10px;
+}
+.result-button {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    padding: 8px;
+    margin-top: 1%;
+    cursor: pointer;
+    border-radius: 20px;
+    color: white;
+    border: none;
+    background-color: #139c53;
+    margin-bottom: 5px!important;
+    text-decoration: none!important;
+}
+
+.result-button:hover {
+    background-color: #11703d;
+    margin-bottom: 5px!important;
+}
+
+
+.table-row:hover {
+  background-color: #aae8f17f;
+  cursor: pointer;
+}
+
+.form-button {
+  color: #ffffff;
+  padding: 5px 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 12px;
+  margin-top: 2px!important;
+}
+
+.complete-button {
+  background-color: #12954f;
+}
+
+.complete-button:hover {
+  background-color: #0e6b3a;
+  cursor: pointer;
+}
+
+.reject-button {
+  background-color: #a33415;
+}
+
+.reject-button:hover {
+  cursor: pointer;
+  background-color: #7e2107
+}

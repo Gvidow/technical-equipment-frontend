@@ -16,9 +16,23 @@ const authSlice = createSlice({
       state.user = null;
       state.draft_id = null;
     },
+    saveAuthToLocalStorage: (state) => {
+      localStorage.setItem('authState', JSON.stringify(state));
+    },
   },
 });
 
-export const { loginSuccess, logoutSuccess } = authSlice.actions;
+export const { loginSuccess, logoutSuccess, saveAuthToLocalStorage } = authSlice.actions;
+
+export const saveAuthMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  if (
+    action.type === loginSuccess.type ||
+    action.type === logoutSuccess.type
+  ) {
+    store.dispatch(saveAuthToLocalStorage());
+  }
+  return result;
+};
 
 export default authSlice.reducer;
