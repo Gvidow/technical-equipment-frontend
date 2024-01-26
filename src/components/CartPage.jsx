@@ -31,13 +31,11 @@ const DraftApplicationTable = ({ bucket, user }) => {
     };
 
     const handleSendBucket = async () => {
-        console.log('eeeeeee', bucket)
         await dispatch(sendBucket(user.token_type, user.access_token));
         navigate('/equipment/feed');
     };
 
     const handleDelBucket = async () => {
-      console.log(123445)
       await dispatch(delBucket(user.token_type, user.access_token));
       navigate('/equipment/feed');
     };

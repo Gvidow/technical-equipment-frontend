@@ -10,15 +10,16 @@ const TableRow = ({ application }) => {
   const statusAliases = {
     operation: 'Сформирована',
     completed: 'Выполнена',
-    CANC: 'Отклонена',
+    canceled: 'Отклонена',
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const isModerator = (user && user.role === 'MOD') ? true : false;
+  const isModerator = (user && user.role === 'moderator') ? true : false;
 
   const redirectToDetail = () => {
     navigate(`/request/${application.id}`);
+    // navigate(`/request/87`); // TODO: replace
   };
 
 //   const handleComplete = async () => {

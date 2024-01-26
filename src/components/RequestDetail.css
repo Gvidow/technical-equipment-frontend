@@ -1,3 +1,92 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+h3 {
+  color: #555;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+/* img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+} */
+
+li img {
+  max-width: 200px;
+  /* Максимальная ширина 100px */
+  max-height: 200px;
+  /* Максимальная высота 100px */
+  width: auto;
+  /* Автоматический расчет ширины */
+  height: auto;
+  /* Автоматический расчет высоты */
+  border: 1px solid #ddd;
+}
+
+.okey,
+.delete {
+  border-radius: 12px;
+}
+
+.delete {
+  margin-left: 10px;
+}
+
+.counter {
+  margin-top: 10px;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+
+/* Общие стили для кнопок */
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 8px;
+  /* Изменен отступ между кнопками */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Стили для кнопки "Удалить" */
+button.delete {
+  background-color: #ff4040;
+  margin-right: 0;
+}
+
+button.delete:hover {
+  background-color: #ff0000;
+}
+
 /* .accept-draft-button {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
