@@ -45,9 +45,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<AuthorizationPage />}/>
         <Route path="/logout" element={<Logout />}/>
         <Route path="/signup" element={<RegistrationPage />}/>
-        <Route path="/equipment/cart" element={<CartPage />}/>
         <Route path="/equipment/requests" element={<RequestsPage />}/>
         <Route path="/request/:id" element={<RequestDetail />}/>
+        {/* <Route path="/equipment/cart" element={<CartPage />}/> */}
       </Routes>
       <ToastContainer position="top-right" autoClose={1000} />
     </RouterComponent>

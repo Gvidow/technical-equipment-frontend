@@ -20,6 +20,10 @@ export const setBucket = (application) => async (dispatch) => {
   }
 };
 
+export const setBucketID = (requestID) => async (dispatch) => {
+  dispatch(setDraftId(requestID));
+};
+
 export const getBucket = (draft_id, token_type, access_token) => async (dispatch) => {
   try {
     const application = (await getRequestById(draft_id, token_type, access_token)).body;
@@ -92,23 +96,49 @@ export const deleteEquipmentFromBucket = (equipment_id, token_type, access_token
   }
 };
 
-export const setParametersBucket = (people_per_minute, time_interval) => async (dispatch, getState) => {
-    try {
-      const { draft_id } = getState().bucket;
+// export const setParametersBucket = (people_per_minute, time_interval) => async (dispatch, getState) => {
+//     try {
+//       const { draft_id } = getState().bucket;
   
-      const response = await axios.put(`http://localhost:80/api/applications/${draft_id}/update/`,
-        {people_per_minute, time_interval },
-        {withCredentials: true},
-      );
+//       const response = await axios.put(`http://localhost:80/api/applications/${draft_id}/update/`,
+//         {people_per_minute, time_interval },
+//         {withCredentials: true},
+//       );
   
-      if (response.status === 200) {
-        dispatch(getBucket(draft_id));
-      } else {
-        console.error(`Ошибка во время установки параметров черновика. Статус: ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Ошибка во время установки параметров черновика:', error);
+//       if (response.status === 200) {
+//         dispatch(getBucket(draft_id));
+//       } else {
+//         console.error(`Ошибка во время установки параметров черновика. Статус: ${response.status}`);
+//       }
+//     } catch (error) {
+//       console.error('Ошибка во время установки параметров черновика:', error);
+//     }
+// };
+
+export const updateEquipmentCountForBucket = (equipment_id, new_count, token_type, access_token) => async (dispatch, getState) => {
+  try {
+    const { draft_id } = getState().bucket;
+
+    const response = await axios.put(`/api/v1/order/edit/count/${equipment_id}`,
+      `{"count": ${new_count}}`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `${token_type} ${access_token}`
+        }
+      },
+    );
+
+    if (response.status === 200) {
+      toast.success('Количество успешно изменено');
+      // dispatch(getBucket(draft_id, token_type, access_token));
+    } else {
+      toast.error('При изменении количества произошла ошибка');
+      console.error(`Ошибка во время установки параметров черновика. Статус: ${response.status}`);
     }
+  } catch (error) {
+    console.error('Ошибка во время установки параметров черновика:', error);
+  }
 };
 
 

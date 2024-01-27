@@ -9,7 +9,7 @@ import Header from './Header';
 
 import './CartPage.css'
 
-import { getBucket, deleteEquipmentFromBucket, setParametersBucket, sendBucket, delBucket } from '../actions/bucketActions'
+import { getBucket, deleteEquipmentFromBucket, sendBucket, delBucket } from '../actions/bucketActions'
 
 
 const DraftApplicationTable = ({ bucket, user }) => {  
@@ -20,11 +20,11 @@ const DraftApplicationTable = ({ bucket, user }) => {
     const [peoplePerMinute, setPeoplePerMinute] = useState(bucket.people_per_minute || '');
     const [timeInterval, setTimeInterval] = useState(bucket.time_interval || '');
   
-    const handleApplyParameters = () => {
-        const peoplePerMinuteInt = parseInt(peoplePerMinute, 10);
-        const timeIntervalInt = parseInt(timeInterval, 10);
-        dispatch(setParametersBucket(peoplePerMinuteInt, timeIntervalInt ));  
-    };
+    // const handleApplyParameters = () => {
+    //     const peoplePerMinuteInt = parseInt(peoplePerMinute, 10);
+    //     const timeIntervalInt = parseInt(timeInterval, 10);
+    //     dispatch(setParametersBucket(peoplePerMinuteInt, timeIntervalInt ));  
+    // };
   
     const handleRemoveEquipment = (equipment_id) => {
       dispatch(deleteEquipmentFromBucket(equipment_id, user.token_type, user.access_token));

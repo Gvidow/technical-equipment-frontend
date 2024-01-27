@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getRequestById } from '../modules/get-request-byid.ts';
-import { setBucket, deleteEquipmentFromBucket, delBucket, sendBucket } from '../actions/bucketActions.js';
+import { setBucket, deleteEquipmentFromBucket, delBucket, sendBucket, updateEquipmentCountForBucket, setBucketID } from '../actions/bucketActions.js';
 import { updateEquipmentResult } from '../actions/requestActions.js'
 
 import CartPage from './CartPage.jsx';
@@ -50,6 +50,7 @@ const RequestDetail = () => {
         setDraftStatus(response.status === 'entered');
         if (response.status === 'entered') {
           dispatch(setBucket(response));
+          dispatch(setBucketID(id));
           setEquipmentResults(response.equipments);
         } else {
           setEquipmentResults(response.equipments);
@@ -95,13 +96,36 @@ const RequestDetail = () => {
     navigate('/equipment/feed');
   };
 
-  if (0 === 1) {
-    return <CartPage />
-  } else {
-    return (
+  const handleEquipmentCountChange = async (equipmentId, count) => {
+    const index = bucket.bucketItems.findIndex(item => item.id === equipmentId);
+    if (count <= 0) {
+      return;
+    }
+    if (index !== -1) {
+        const updatedItems = [...bucket.bucketItems];
+        updatedItems[index] = { ...updatedItems[index], count };
+
+        dispatch(setBucket({equipments: updatedItems}));
+        console.log('Обновленное количество:', updatedItems[index].count);
+    } else {
+        console.log(`в состоянии корзины не найдено оборудование с id=${equipmentId}`);
+    }
+  }
+
+  const handleUpdateManyToManyForEquipment = async (equipmentId) => {
+    const index = bucket.bucketItems.findIndex(item => item.id === equipmentId);
+    if (index !== -1) {
+      // bucket.bucketItems[index].count
+      await dispatch(updateEquipmentCountForBucket(bucket.bucketItems[index].id, bucket.bucketItems[index].count, user.token_type, user.access_token));
+    } else {
+      console.log(`в состоянии корзины не найдено оборудование с id=${equipmentId}`);
+    }
+  }
+
+  return (
       <div>
         <NavbarTechnicalEquipment showConstructor={true} />
-        <Header breadcrumbs={['Оборудование', 'Заявки', id]} showCart={false} showApp={true} />
+        <Header breadcrumbs={draftStatus ? ['Оборудование', 'Корзина'] : ['Оборудование', 'Заявки', id]} showCart={false} showApp={true} />
         <div className="applications-container">
           <div className='applications-title'> Заявка № {id} </div>
           {status && (
@@ -150,49 +174,60 @@ const RequestDetail = () => {
             //     ))}
             //   </tbody>
             // </table>
-            <div>
-              <h3>Оборудование:</h3>
-              <ul>
-                    {(draftStatus && bucket.bucketItems ? bucket.bucketItems : equipmentResults).map((equipment) => (
-                        // <p>{item.id}</p>
-                        <li key={equipment.id}>
-                            <h4>{equipment.title}</h4>
-                            <p>{equipment.description}</p>
-                            <img src={equipment.picture || '/printer-icon.svg'} alt={equipment.title} />
+            <div id='equipments-feed'>
+              {(draftStatus && bucket.bucketItems && bucket.bucketItems.length === 0 || equipmentResults.length === 0) ? (
+                  <p>Заявка пустая</p>
+                ):(
+                  <div>
+                  <h3>Оборудование:</h3>
+                  <ul>
+                      {(draftStatus && bucket.bucketItems ? bucket.bucketItems : equipmentResults).map((equipment) => (
+                          // <p>{item.id}</p>
+                          <li key={equipment.id}>
+                              <h4>{equipment.title}</h4>
+                              <p>{equipment.description}</p>
+                              <img src={equipment.picture || '/printer-icon.svg'} alt={equipment.title} />
 
-                            <div>
-                                <label htmlFor={`productionCount-${equipment.id}`}>Количество:</label>
-                                <input
-                                    type="number"
-                                    id={`productionCount-${equipment.id}`}
-                                    value={equipment.count || 1}
-                                    className="counter"
-                                    onChange={(e) => setEditedValue(e.target.value)}
-                                    disabled={!draftStatus}
-                                />
-                                {draftStatus && user && (
-                                    <div>
-                                        <button className="okey">
-                                            Изменить количество
-                                        </button>
-                                        <button onClick={() => handleRemoveEquipment(equipment.id, user.token_type, user.access_token)} className="delete">
-                                            Удалить из заявки
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
+                              <div>
+                                  <label htmlFor={`productionCount-${equipment.id}`}>Количество:</label>
+                                  <input
+                                      type="number"
+                                      id={`productionCount-${equipment.id}`}
+                                      // value={equipment.count || 1}
+                                      // placeholder={equipment.count || 1}
+                                      // target={equipment.count || 1}
+                                      value={equipment.count}
+                                      className="counter"
+                                      onChange={(e) => handleEquipmentCountChange(equipment.id, e.target.value)}
+                                      disabled={!draftStatus}
+                                  />
+                                  {draftStatus && user && (
+                                      <div>
+                                          <button onClick={() => handleUpdateManyToManyForEquipment(equipment.id)} className="okey">
+                                              Изменить количество
+                                          </button>
+                                          <button onClick={() => handleRemoveEquipment(equipment.id, user.token_type, user.access_token)} className="delete">
+                                              Удалить из заявки
+                                          </button>
+                                      </div>
+                                  )}
+                              </div>
+                          </li>
+                      ))}
+                  </ul>
+                  </div>
+                )}
 
-                        </li>
-                    ))}
-                </ul>
                 {draftStatus && (
                     <div>
+                      <div id="request-action-moderator">
                         <button onClick={handleSendBucket} className="okey">
                             Оформить заявку
                         </button>
                         <button onClick={handleDelBucket} className="delete">
                             Удалить заявку
                         </button>
+                      </div>
                     </div>
                 )}
             </div>
@@ -200,7 +235,6 @@ const RequestDetail = () => {
         </div>
       </div>
     );
-  }
-};
+  };
 
 export default RequestDetail;
