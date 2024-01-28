@@ -37,6 +37,7 @@ const InputField: FC<SearchEquipment> = ({
   const [showClearButton, setShowClearButton] = useState<boolean>(equipmentTitle === '' && searchAfterDate === '' ? false : true);
   const [createdAfterDate, setCreatedAfterDate] = useState<Date | null>(searchAfterDate === '' ? null : (()=>{
     const [day, month, year] = searchAfterDate.split('.').map(Number);
+    // const [day, month, year] = [3, 4, 5];
     return new Date(year, month - 1, day);
   })());
   

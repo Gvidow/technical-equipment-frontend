@@ -6,8 +6,7 @@ const equipmentSlice = createSlice({
     searchEquipmentTitle: '',
     equipments: [],
     loading: false,
-    minPrice: 0,
-    maxPrice: 99000,
+    searchAfterDate: '',
   },
   reducers: {
     setSearchEquipmentTitle: (state, action) => {
@@ -19,12 +18,9 @@ const equipmentSlice = createSlice({
     setLoading: (state, action) => {
       return { ...state, loading: action.payload };
     },
-    setMinPrice: (state, action) => {
-      return { ...state, minPrice: action.payload };
-    },
-    setMaxPrice: (state, action) => {
-      return { ...state, maxPrice: action.payload };
-    },
+    setSearchAfterDate: (state, action) => {
+      return { ...state, searchAfterDate: action.payload };
+    }
   },
 });
 
@@ -32,8 +28,7 @@ export const {
   setSearchEquipmentTitle,
   setEquipments,
   setLoading,
-  setMinPrice,
-  setMaxPrice,
+  setSearchAfterDate,
 } = equipmentSlice.actions;
 
 export default equipmentSlice.reducer;

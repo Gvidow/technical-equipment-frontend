@@ -3,8 +3,12 @@ import { Col, Row, Spinner, Container } from 'react-bootstrap'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+// import { setSearchAfterDate } from '../slices/equipmentSlice';
+
 import {
-  setEquipmentsAction
+  setEquipmentsAction,
+  setSearchEquipmentTitleAction,
+  setSearchEquipmentAfterDateAction
 } from '../actions/equipmentActions'
 
 import NavbarTechnicalEquipment from './Navbar';
@@ -22,64 +26,94 @@ const EquipmentsPage = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
-  const { searchEquipment, equipments, loading, searchAfterDate } = useSelector(
+  const { searchEquipmentTitle, equipments, loading, searchAfterDate } = useSelector(
     (state) => state.equipment
   );
 
   
 
   const navigateTo = useNavigate();
-  // const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  // const searchEquipmentTitle = queryParams.get('equipment') || '';
-  // const searchDate = queryParams.get('createdAfter') || '';
 
-  // const [searchEquipment, setSearchEquipment] = useState(searchEquipmentTitle);
-  // const [searchAfterDate, setSearchAfterDate] = useState(searchDate)
-  // const [equipments, setEquipments] = useState([]);
-  // const [loading, setLoading] = useState(false);
+////////////////////////////////////////////////////////////////////
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  let searchEquipmentTitleCurrent = queryParams.get('equipment') || '';
+  let searchDateCurrent = queryParams.get('createdAfter') || '';
+
+  // const [searchEquipment2, setSearchEquipment] = useState(searchEquipmentTitle);
+  // const [searchAfterDate2, setSearchAfterDate] = useState(searchDateCurrent)
+  const [equipments2, setEquipments] = useState([]);
+  // const [begin, setBegin] = useState(true);
+  const [loading2, setLoading] = useState(false);
+
+////////////////////////////////////////////////////////////////////
+
   const [ reset, setReset] = useState(0);
+  if ((searchEquipmentTitle !== '' || searchAfterDate !== '') &&  searchEquipmentTitleCurrent === '' && searchDateCurrent === '') {
+    searchEquipmentTitleCurrent = searchEquipmentTitle
+    searchDateCurrent = searchAfterDate
+    queryParams.set('createdAfter', searchDateCurrent);
+    queryParams.set('equipment', searchEquipmentTitleCurrent);
+    navigateTo(`${location.pathname}?${queryParams.toString()}`);
+  }
 
   const handleSearchSubmit = async () => {
     if (isAuthenticated) {
-      dispatch(setEquipmentsAction(searchEquipment, searchAfterDate, user.token_type, user.access_token));
+      dispatch(setEquipmentsAction(searchEquipmentTitle, searchAfterDate, user.token_type, user.access_token));
     } else {
-      dispatch(setEquipmentsAction(searchEquipment, searchAfterDate));
+      dispatch(setEquipmentsAction(searchEquipmentTitle, searchAfterDate));
     }
   }
 
   useEffect(() => {
-    handleSearchSubmit();
+    console.log(searchEquipmentTitleCurrent, searchDateCurrent)
+
+    if (searchEquipmentTitleCurrent !== '') {
+      dispatch(setSearchEquipmentTitleAction(searchEquipmentTitleCurrent));
+    }
+    if (searchDateCurrent !== '') {
+      dispatch(setSearchEquipmentAfterDateAction(searchDateCurrent));
+    }
+  
+    if (isAuthenticated) {
+      dispatch(setEquipmentsAction(searchEquipmentTitleCurrent, searchDateCurrent, user.token_type, user.access_token));
+    } else {
+      dispatch(setEquipmentsAction(searchEquipmentTitleCurrent, searchDateCurrent));
+    }
   }, [reset]);
 
   return (
     <div>
       <NavbarTechnicalEquipment />
       <Header breadcrumbs={['Оборудование']} showCart={true} showApp={true} />
-          {/* <InputField
-            equipmentTitle={searchEquipment}
+          <InputField
+            equipmentTitle={searchEquipmentTitleCurrent}
             reset={()=>{setReset(reset === 0 ? 1 : 0)}}
             setEquipmentTitle={(equipmentTitle)=>{
-                setSearchEquipment(equipmentTitle)
+                // setSearchEquipment(equipmentTitle)
                 const queryParams = new URLSearchParams(location.search);
                 queryParams.set('equipment', equipmentTitle);
-                console.log(`${location.pathname}?${queryParams.toString()}`)
+                // console.log(`${location.pathname}?${queryParams.toString()}`)
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);
-            }}
+                console.log('setEquipmentTitle: ', equipmentTitle);
+                dispatch(setSearchEquipmentTitleAction(equipmentTitle));
+            }
+          }
             clearParams={()=>{navigateTo('/equipment/feed')}}
             onSubmit={handleSearchSubmit}
             loading={loading}
             placeholder="Введите поисковый запрос"
             buttonTitle="Искать"
             setFilterAfterDate={(date) => {
-                setSearchAfterDate(date);
                 const queryParams = new URLSearchParams(location.search);
                 queryParams.set('createdAfter', date);
                 navigateTo(`${location.pathname}?${queryParams.toString()}`);
+                dispatch(setSearchEquipmentAfterDateAction(date));
             }
             }
-            searchAfterDate={searchAfterDate}
-          /> */}
+            searchAfterDate={searchDateCurrent}
+          />
 
           <Container className="mx-auto">
             <div className={`mx-auto ${loading ? 'custom-loading' : 'custom-container'} text-center d-flex align-items-center justify-content-center`}>
@@ -99,6 +133,7 @@ const EquipmentsPage = () => {
               )}
             </div>
           </Container>
+          {/*<button onClick={()=>{console.log(searchEquipmentTitle, searchAfterDate)}}>III</button>*/}
     </div>
   );
 }

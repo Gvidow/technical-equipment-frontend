@@ -15,7 +15,6 @@ import {
   filterApplicationsUser,
 } from '../actions/requestActions'
 
-const SHORT_POLLING_INTERVAL = 5000
 
 import './CartPage.css'
 import NavbarTechnicalEquipment from './Navbar';
@@ -44,20 +43,20 @@ const RequestsPage = () => {
     handleGetRequests();
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      try {
-        if (user) {
-          await dispatch(getRequests());
-        } else {
-          navigate('/modelings');
-        }
-      } catch (error) {
-        console.error('Ошибка во время получения заявок:', error);
-      }
-    }, SHORT_POLLING_INTERVAL);
-    return () => clearInterval(intervalId);
-  }, []);
+  // useEffect(() => {
+  //   const intervalId = setInterval(async () => {
+  //     try {
+  //       if (user) {
+  //         await dispatch(getRequests());
+  //       } else {
+  //         navigate('/modelings');
+  //       }
+  //     } catch (error) {
+  //       console.error('Ошибка во время получения заявок:', error);
+  //     }
+  //   }, SHORT_POLLING_INTERVAL);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <div>
@@ -101,7 +100,7 @@ const RequestsPage = () => {
             <tbody>
               {filterApplicationsUser(applications, nameUser).map((application) => (
                   <TableRow
-                    key={application.application_id}
+                    key={application.id}
                     application={application}
                   />
               ))}
