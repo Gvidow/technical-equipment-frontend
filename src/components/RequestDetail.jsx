@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getRequestById } from '../modules/get-request-byid.ts';
 import { setBucket, deleteEquipmentFromBucket, delBucket, sendBucket, updateEquipmentCountForBucket, setBucketID } from '../actions/bucketActions.js';
-import { updateEquipmentResult } from '../actions/requestActions.js'
+// import { updateEquipmentResult } from '../actions/requestActions.js'
 
 import CartPage from './CartPage.jsx';
 import NavbarTechnicalEquipment from './Navbar';
@@ -64,18 +64,18 @@ const RequestDetail = () => {
     fetchResults();
   }, [id]);
 
-  const handleResultChange = async (equipmentId, newValue) => {
-    try {
-      await dispatch(updateEquipmentResult(id, equipmentId, parseFloat(newValue)));
-      const response = await getApplicationById(id);
-      setEquipmentResults(response.body.equipments);
-      toast.success('Изменения записаны');
-    } catch (error) {
-      console.error('Ошибка при обновлении результата моделирования', error);
-    } finally {
-      // setEditedIndex(null);
-    }
-  };
+  // const handleResultChange = async (equipmentId, newValue) => {
+  //   try {
+  //     await dispatch(updateEquipmentResult(id, equipmentId, parseFloat(newValue)));
+  //     const response = await getApplicationById(id);
+  //     setEquipmentResults(response.body.equipments);
+  //     toast.success('Изменения записаны');
+  //   } catch (error) {
+  //     console.error('Ошибка при обновлении результата моделирования', error);
+  //   } finally {
+  //     // setEditedIndex(null);
+  //   }
+  // };
 
   const handleRemoveEquipment = (equipment_id) => {
     dispatch(deleteEquipmentFromBucket(equipment_id, user.token_type, user.access_token));

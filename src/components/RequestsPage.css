@@ -1,0 +1,26 @@
+.search-bar {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+.input-container {
+    display: flex;
+}
+
+input {
+    flex-grow: 0.2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#requests-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#requests-search > div > input {
+    margin-right: 10px;
+    margin-left: 10px;
+}
