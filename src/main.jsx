@@ -41,7 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
     <RouterComponent>
       <Routes>
-        {/* <Route path='/*' element={<RedirectComponent />}/> */}
+        <Route path='/*' element={<RedirectComponent />}/>
         <Route path='/equipment/feed' element={<EquipmentsPage />}/>
         <Route path='/equipment/get/:id' element={<EquipmentDetailPage />}/>
         <Route path="/login" element={<AuthorizationPage />}/>
