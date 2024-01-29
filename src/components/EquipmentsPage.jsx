@@ -85,7 +85,7 @@ const EquipmentsPage = () => {
 
   return (
     <div>
-      <NavbarTechnicalEquipment />
+      <NavbarTechnicalEquipment showConstructor={true} />
       <Header breadcrumbs={['Оборудование']} showCart={true} showApp={true} />
           <InputField
             equipmentTitle={searchEquipmentTitleCurrent}

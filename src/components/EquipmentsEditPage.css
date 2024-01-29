@@ -1,0 +1,40 @@
+/* EquipmentPage.css */
+
+.myequipment-image {
+    width: 100px;
+    height: 100px;
+}
+
+.my-delete-button {
+    color: red;
+    background: none;
+    cursor: pointer;
+    border: none;
+}
+
+.my-delete-button:hover {
+    color: darkred;
+    background: none;
+}
+
+.my-excel-container {
+    display: flex;
+    justify-content: center;
+}
+
+.my-excel-table {
+    margin-left: 15px;
+    border-collapse: collapse;
+    width: 95%;
+}
+
+.my-excel-table th,
+.my-excel-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.my-excel-table th {
+    background-color: #f2f2f2;
+}

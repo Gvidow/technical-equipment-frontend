@@ -10,6 +10,7 @@ import Logout from './components/Logout';
 import CartPage from './components/CartPage';
 import RequestsPage from './components/RequestsPage';
 import RequestDetail from './components/RequestDetail';
+import EquipmentsEditPage from './components/EquipmentsEditPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -47,6 +48,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/signup" element={<RegistrationPage />}/>
         <Route path="/equipment/requests" element={<RequestsPage />}/>
         <Route path="/request/:id" element={<RequestDetail />}/>
+        <Route path="/equipment/edit" element={<EquipmentsEditPage />}/>
+        {/* <Route path="/equipment/edit/:id" element={<ConstructorPage />}/> */}
         {/* <Route path="/equipment/cart" element={<CartPage />}/> */}
       </Routes>
       <ToastContainer position="top-right" autoClose={1000} />

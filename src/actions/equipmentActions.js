@@ -7,6 +7,8 @@ import {
   
 import { getEquipments } from '../modules/get-equipments';
 import { setDraftId } from '../slices/bucketSlice';
+import axios from 'axios';
+import { toast } from 'react-toastify';
   
 const filterEquipments = (
     data,
@@ -55,3 +57,28 @@ export const setSearchEquipmentTitleAction = (title) => (dispatch) => {
 export const setSearchEquipmentAfterDateAction = (date) => (dispatch) => {
     dispatch(setSearchAfterDate(date));
 };
+
+export const getEquipmentsForEdit = (token_type, access_token) => async (dispatch) => {
+  try {
+    const response = await getEquipments('', '', token_type, access_token);
+    const data = response[1];
+    dispatch(setEquipments(data));
+  } catch (error) {
+    console.error('Ошибка при получении оборудования:', error);
+  }
+} 
+
+export const deleteEquipment = (id, token_type, access_token) => async () => {
+  try {
+    if (id) {
+      await axios.delete(`/api/v1/equipment/delete/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `${token_type} ${access_token}`,
+        },
+      })
+    }
+  } catch (error) {
+    toast.error('Неудалось удалить оборудование')
+  }
+}

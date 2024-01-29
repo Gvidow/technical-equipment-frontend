@@ -12,12 +12,14 @@ import personIcon from '/logo-user.png';
 import UserProfileMenuPortal from './UserProfileMenuPortal';
 
 
-function NavbarTechnicalEquipment() {
+function NavbarTechnicalEquipment({ showConstructor = false }) {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
   const [showUserProfileMenu, setShowUserProfileMenu] = React.useState(false);
+
+  const isModerator = (user && user.role === 'moderator') ? true : false;
 
   // const dispatch = useDispatch();
   const handleUserProfileClick = () => {
@@ -31,13 +33,30 @@ function NavbarTechnicalEquipment() {
   return (
     <Navbar className="color-navbar" expand="lg">
       <Container>
+      {/* <Container> */}
         <Link to="/equipment/feed">
-          <Image src={logoImage} roundedCircle className="logo-img" alt="Логотип AnyMetro" />
+          <Image src={logoImage} roundedCircle className="logo-img" alt="Логотип TechnicalEquipment" />
         </Link>
         <Navbar.Brand as={Link} to="/equipment/feed" className="brand-text">
           Техническое оборудование
         </Navbar.Brand>
+        {/* </Container> */}
         <Nav className="ms-auto">
+
+          {isModerator && showConstructor && (
+            <Link to="/equipment/edit" className="btns-log">
+              Редактирование оборудования
+            </Link>
+          )}
+          {/* {isAuthenticated && (
+            <Link to="/equipment/requests" className="btns-log">
+              {isModerator ? "Управление заявками" : "Заявки"}
+            </Link>
+          )} */}
+          <Link to="/equipment/feed" className="btns-log">
+            Оборудование
+          </Link>
+
           {isAuthenticated ? (
             <>
               <div className='user-name'>
