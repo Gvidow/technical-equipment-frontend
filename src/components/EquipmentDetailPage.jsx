@@ -14,10 +14,11 @@ const EquipmentDetailsPage = () => {
   const details = useSelector((state) => state.equipmentDetail.details);
 
   useEffect(() => {
+    // console.log('EquipmentDetailsPage:::', details)
     if (id) {
       dispatch(getEquipmentDetailAction(id));
     }
-  }, [id, dispatch, details?.modeling_name]);
+  }, [id, dispatch, details?.title]);
 
   return (
     <div>
