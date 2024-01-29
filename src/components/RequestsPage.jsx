@@ -147,7 +147,7 @@ const RequestsPage = () => {
             value={maxDate}
             onChange={handleInputChange}
           />
-          {/* {isModerator && (
+          {isModerator && (
             <input
               type="text"
               id="username-input"
@@ -155,7 +155,7 @@ const RequestsPage = () => {
               value={username}
               onChange={handleInputChange}
             />
-          )} */}
+          )}
           {/* <button type="button" id="search-button" onClick={handleGetRequests}></button> */}
           <button type="button" class="add-to-cart-button" onClick={handleGetRequests}>
             Искать

@@ -32,7 +32,7 @@ const EquipmentCard = ({
         </div>
       </Link>
 
-      {isUserAuthorized && (
+      {isAuthenticated && (
         <div className="add-to-cart-container">
           <button className="add-to-cart-button" onClick={handleAddToBucket}>
             В корзину

@@ -80,3 +80,35 @@ export const setSearchStatusAction = (status) => (dispatch) => {
 //     console.error('Ошибка при обновлении результата моделирования:', error);
 //   }  
 // }
+
+export const completeRequest = (id, token_type, access_token) => async () => {
+  try {
+    await axios.put(`/api/v1/request/status/change/moderator/${id}`, 
+    '{"status": "completed"}',
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `${token_type} ${access_token}`
+      },
+    });
+
+  } catch (error) {
+    console.error('Ошибка при завершении заявки:', error);
+  }
+};
+
+export const rejectRequest = (id, token_type, access_token) => async () => {
+  try {
+    await axios.put(`/api/v1/request/status/change/moderator/${id}`, 
+    '{"status": "canceled"}',
+    {
+      withCredentials: true,
+      headers: {
+        Authorization: `${token_type} ${access_token}`
+      },
+    });
+
+  } catch (error) {
+    console.error('Ошибка при отклонении заявки:', error);
+  }
+};

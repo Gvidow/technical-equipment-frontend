@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns-tz';
-// import { getRequests, completeApplication, rejectApplication } from '../actions/requestActions';
+import { getRequests, completeRequest, rejectRequest } from '../actions/requestActions';
 import './TableRow.css';
 import { Link } from "react-router-dom";
 
@@ -22,15 +22,15 @@ const TableRow = ({ application }) => {
     // navigate(`/request/87`); // TODO: replace
   };
 
-//   const handleComplete = async () => {
-//     await dispatch(completeApplication(application.application_id));
-//     await dispatch(getApplications());
-//   };
+  const handleComplete = async () => {
+    await dispatch(completeRequest(application.id, user.token_type, user.access_token));
+    await dispatch(getRequests(user.token_type, user.access_token));
+  };
 
-//   const handleReject = async () => {
-//     await dispatch(rejectApplication(application.application_id));
-//     await dispatch(getApplications());
-//   };
+  const handleReject = async () => {
+    await dispatch(rejectRequest(application.id, user.token_type, user.access_token));
+    await dispatch(getRequests(user.token_type, user.access_token));
+  };
 
   return (
     <tr className='table-row'>
@@ -39,15 +39,15 @@ const TableRow = ({ application }) => {
       <td onClick={redirectToDetail}>{formatTime(application.formated_at)}</td>
       <td onClick={redirectToDetail}>{formatTime(application.completed_at)}</td>
       <td onClick={redirectToDetail}>{application.moderator_profile?.username}</td>
-      {/* {isModerator && (
-        <td onClick={redirectToDetail}>{application.user_first_name} {application.user_second_name}</td>  
-      )} */}
+      {isModerator && (
+        <td onClick={redirectToDetail}>{application.creator_profile?.username}</td>  
+      )}
       <td onClick={redirectToDetail} className={`status-cell ${application.status.toLowerCase()}`}>
         {statusAliases[application.status]}
       </td>
-      {/* {isModerator && (
+      {isModerator && (
         <td>
-          {application.status_application === 'WORK' && (
+          {application.status === 'operation' && (
             <>
               <Link onClick={handleComplete} className='form-button complete-button'> Завершить </Link>
               <Link onClick={handleReject} className='form-button reject-button'> Отклонить </Link>
@@ -55,7 +55,7 @@ const TableRow = ({ application }) => {
           )
           }
         </td>  
-      )} */}
+      )}
     </tr>
   );
 };
