@@ -38,7 +38,7 @@ const EquipmentsEditPage = () => {
     return (
         <div>
             <NavbarTechnicalEquipment />
-            <Header breadcrumbs={['Услуги']} showCart={false} showApp={false} />
+            <Header breadcrumbs={['Услуги']} showCart={false} showApp={false} showConstructor={true} />
             <div className="myEditEq">
                 <div className="equipment-list-container">
                     <h1>Список услуг</h1>

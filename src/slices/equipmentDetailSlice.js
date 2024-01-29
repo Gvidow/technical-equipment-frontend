@@ -17,8 +17,8 @@ const equipmentDetailSlice = createSlice({
       state.details = {};
       state.details.equipment_image = null;
       state.details.picture = null;
-      state.details.title = null,
-      state.details.description = null,
+      state.details.title = '',
+      state.details.description = '',
       state.details.load = null;
     }
   },

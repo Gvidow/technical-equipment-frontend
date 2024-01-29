@@ -18,6 +18,8 @@ const ConstructorEquipment = () => {
 
   useEffect(() => {
     if (id === "0") {
+      const newPath = '/equipment/add';
+      window.history.pushState(null, null, newPath);
       dispatch(toInitState());
     } else if (id !== null && id !== "0") {
       dispatch(getEquipmentDetailAction(id));
@@ -51,7 +53,7 @@ const ConstructorEquipment = () => {
         await dispatch(updateEquipmentDetailAction(id, data, user.token_type, user.access_token));
         navigate('/equipment/edit');
     } else {
-        const resultStatus = await dispatch(createEquipmentDetailAction(data));
+        const resultStatus = await dispatch(createEquipmentAction(data, user.token_type, user.access_token));
         if (resultStatus === 0) {
             navigate('/equipment/edit');
         }
@@ -61,7 +63,7 @@ const ConstructorEquipment = () => {
   return (
     <div>
       <NavbarAnyMetro showConstructor={true} />
-      <Header showCart={false} showApp={true} showConstructor={true} />
+      <Header breadcrumbs={id && id !== '0' ? ['Услуги', id] : ['Услуги', 'Добавление']} showCart={false} showApp={true} showConstructor={true} />
       <div className="model-card">
         <form onSubmit={handleSubmit} className="form-grid">
           <div className="model-card-image">
@@ -72,7 +74,7 @@ const ConstructorEquipment = () => {
               className="model-detail-card"
             /> */}
             <img
-              src={typeof(details.picture)==='object' ? URL.createObjectURL(details.picture) : (details.picture ? details.picture : mockImg) }
+              src={typeof(details.picture)==='object' ? (details.picture ? URL.createObjectURL(details.picture) : mockImg) : (details.picture ? details.picture : mockImg) }
               alt={details?.title}
               className="model-detail-card"
             />
@@ -101,7 +103,7 @@ const ConstructorEquipment = () => {
                 />
             </div>
             <div className="form-field">
-                <button className='btn-save' type="submit">Сохранить</button>
+                <button className='btn-save' type="submit">{id === '0' ? 'Создать' : 'Сохранить'}</button>
             </div>
           </div>
         </form>
