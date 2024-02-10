@@ -19,6 +19,7 @@ import './CartPage.css';
 import './RequestsPage.css';
 import NavbarTechnicalEquipment from './Navbar';
 
+const SHORT_POLLING_INTERVAL = 1000;
 
 const RequestsPage = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,20 @@ const RequestsPage = () => {
     handleGetRequests();
   }, []);
 
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      try {
+        if (user) {
+          await dispatch(getRequests(user.token_type, user.access_token));
+        } else {
+          navigate("/equipment/feed")
+        }
+      } catch (error) {
+        console.error('Ошибка во время получения заявок:', error);
+      }
+    }, SHORT_POLLING_INTERVAL);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div>
