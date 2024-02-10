@@ -192,6 +192,7 @@ const RequestsPage = () => {
                 {isModerator && (
                   <th>Пользователь</th>  
                 )}
+                <th>Возвращена</th>
                 <th>Статус</th>
                 {isModerator && (
                   <th>Действие</th>  

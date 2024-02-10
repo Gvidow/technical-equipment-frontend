@@ -42,6 +42,7 @@ const TableRow = ({ application }) => {
       {isModerator && (
         <td onClick={redirectToDetail}>{application.creator_profile?.username}</td>  
       )}
+      <td onClick={redirectToDetail}>{application.reverted !== undefined ? (application.reverted ? 'Да' : 'Нет') : '-'}</td>
       <td onClick={redirectToDetail} className={`status-cell ${application.status.toLowerCase()}`}>
         {statusAliases[application.status]}
       </td>
