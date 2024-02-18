@@ -3,6 +3,7 @@ export interface EquipmentImage {
   equipment_title: string;
   equipment_description: string;
   equipment_image: string;
+  equipment_created_at: string;
 }
   
 export interface EquipmentData {
@@ -10,6 +11,7 @@ export interface EquipmentData {
   title: string;
   description: string;
   picture: string;
+  created_at: string;
 }
 
 export const mockEquipments: EquipmentImage[] = [
@@ -18,18 +20,21 @@ export const mockEquipments: EquipmentImage[] = [
       equipment_title: 'Принтер',
       equipment_description: 'для печати документов',
       equipment_image: '/technical-equipment-frontend/printer-icon.svg',
+      equipment_created_at: '12.12.2023',
   },
   {
       equipment_id: 2,
       equipment_title: 'Проектор',
       equipment_description: 'Показывает в высоком качестве',
       equipment_image: '/technical-equipment-frontend/printer-icon.svg',
+      equipment_created_at: '12.11.2023',
   },
   {
       equipment_id: 3,
       equipment_title: 'Ноутбук',
       equipment_description: 'если свой забыли',
       equipment_image: '/technical-equipment-frontend/printer-icon.svg',
+      equipment_created_at: '12.09.2023',
   },
 ];
 
@@ -51,16 +56,17 @@ export const getEquipments = async (equipmentTitle = '', dateAfter=''): Promise<
           equipment_title: equipment.title,
           equipment_description: equipment.description,
           equipment_image: await getImageForEquipment(equipment.picture),
+          equipment_created_at: equipment.created_at
         });
       }      
 
       return equipmentImageData;
     } else {
-      return mockEquipments;
+      return filterEquipments(mockEquipments, equipmentTitle, dateAfter);
     }
   } catch (error) {
     console.error('Произошла ошибка:', error);
-    return mockEquipments;
+    return filterEquipments(mockEquipments, equipmentTitle, dateAfter);
   }
 }
 
@@ -91,4 +97,34 @@ function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
   const binaryString = String.fromCharCode(...binaryArray);
   const base64String = btoa(binaryString);
   return base64String;
+}
+
+const filterEquipments = (
+  data: EquipmentImage[],
+  title: string,
+  date: string,
+) => {
+  const filteredData = data.filter((equipment) => {
+    const equipmentTitleMatches = equipment.equipment_title.toLowerCase().includes(title.toLowerCase());
+    const equipmentDateMatches = compareDates(equipment.equipment_created_at, date) >= 0;
+    return equipmentTitleMatches && equipmentDateMatches;
+  });
+
+  return filteredData;
+};
+
+function compareDates(date1: string, date2: string): number {
+  const [day1, month1, year1] = date1.split('.').map(Number);
+  const [day2, month2, year2] = date2.split('.').map(Number);
+
+  const dateObject1 = new Date(year1, month1 - 1, day1); // Месяцы в JavaScript начинаются с 0
+  const dateObject2 = new Date(year2, month2 - 1, day2);
+
+  if (dateObject1 < dateObject2) {
+      return -1;
+  } else if (dateObject1 > dateObject2) {
+      return 1;
+  } else {
+      return 0;
+  }
 }
