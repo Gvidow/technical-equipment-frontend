@@ -48,11 +48,11 @@ function NavbarTechnicalEquipment({ showConstructor = false }) {
               Редактирование оборудования
             </Link>
           )}
-          {/* {isAuthenticated && (
+          {isAuthenticated && (
             <Link to="/equipment/requests" className="btns-log">
-              {isModerator ? "Управление заявками" : "Заявки"}
+              Заявки
             </Link>
-          )} */}
+          )}
           <Link to="/equipment/feed" className="btns-log">
             Оборудование
           </Link>

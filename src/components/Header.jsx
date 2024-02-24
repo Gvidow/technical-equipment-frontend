@@ -18,11 +18,6 @@ const Header = ({ breadcrumbs, showCart, showApp, showConstructor=false }) => {
       <div className="breadcrumbs-container">
         <Breadcrumbs list={breadcrumbs} />
       </div>
-      {isAuthenticated && showApp && (
-        <Link to="/equipment/requests" className="applications-link">
-          <a className="applications-button">Заявки</a>
-        </Link>
-      )}
       {isAuthenticated && showCart && (
         // <Link to={isCartActive ? "/equipment/cart" : "#"} className="cart-link">
         <Link to={isCartActive ? `/request/${draft_id}` : "#"} className="cart-link">
